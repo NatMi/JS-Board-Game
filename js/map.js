@@ -29,7 +29,7 @@ function drawMapGrid(){
 function putPlayerOnSquare(){
 
     let chosenSquare = document.getElementById(event.target.id);
-    chosenSquare.style.background = "#b1611c";
+    chosenSquare.style.background = "#f0bc68";
 
     console.log(`Clicked on mapSquare with id "${chosenSquare.id}"`)
 
