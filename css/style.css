@@ -1,0 +1,26 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+.main-container{
+    margin: 10vh;
+}
+
+.container{
+    display:flex;
+    flex-flow: row wrap;
+}
+
+.mapGridRow{
+    display:flex;
+    flex: 1 100%;
+    flex-direction: row;
+    padding:5px;
+}
+
+.mapSquare{
+    height:50px;
+    width:50px;
+    outline: solid 1px rgb(126, 126, 126);
+}
