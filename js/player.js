@@ -1,10 +1,11 @@
 
 class Player{
-    constructor(playerNumber, healthPoints){
+    constructor(playerImg, playerNumber, healthPoints, weapon){
+        this.playerImg = playerImg;
         this.playerNumber = playerNumber;
         this.healthPoints = 100;
-        this.weapon = // default weapon; 
+        this.weapon = snowball;
 
     }
 
-} 
+}

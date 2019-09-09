@@ -1,8 +1,5 @@
    
    //Generate map grid 
-let mapGrid = document.getElementById("mapGrid");
-let mapSquare = document.getElementsByClassName("mapSquare");
-
 
 function drawMapGrid(){
     for ( let row = 0; row < 10; row++) {
@@ -25,11 +22,14 @@ function drawMapGrid(){
 };
     drawMapGrid();
 
+
      // put Player On Square
 function putPlayerOnSquare(){
 
     let chosenSquare = document.getElementById(event.target.id);
-    chosenSquare.style.background = "#f0bc68";
+    chosenSquare.style.background = "#f0bc68";                       // this should probably change class not color.
+                                                                    // maybe player will change selected and neighbouring field
+                                                                    // randomize fields to availeble/ unavailable
 
     console.log(`Clicked on mapSquare with id "${chosenSquare.id}"`)
 
