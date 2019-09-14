@@ -1,4 +1,12 @@
+ /*TODO:
+ - add turns for players (player 2 is not moving on the map) - hightlight active player
+ - restrict players moves (right now player 1 can be placed anywhere on grid except dimmed and p2)
+ - add initial position of the players to be restricted (start from the opposite parts of the grid)
+ - work on dimmed fields (right now some places on grid are unaccessable, what if one of the players gets stuck?
+ - refine the code (get rid of some repetitions)
     
+    */
+ 
 let allMapSquares = document.getElementsByClassName("mapSquare");
 
 //Randomizing position on map grid
