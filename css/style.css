@@ -25,3 +25,22 @@
     outline: solid 1px rgb(126, 126, 126);
     margin:5px;
 }
+
+.chosenSquare{
+    background-color: #f0bc68 ;
+    height:50px;
+    width:50px;
+    outline: solid 1px rgb(126, 126, 126);
+    margin:5px;
+}
+
+
+
+.playerOne{
+    background-image: url(../assets/player1.jpg);
+    background-size: cover;
+}
+
+#playerTwo{
+    background-image: url(../assets/player2.jpg)
+}
