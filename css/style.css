@@ -16,14 +16,13 @@
     display:flex;
     flex: 1 100%;
     flex-direction: row;
-    margin:3px;
 }
 
 .mapSquare{
     height:50px;
     width:50px;
     outline: solid 1px rgb(126, 126, 126);
-    margin:5px;
+
 }
 
 .chosenSquare{
@@ -31,7 +30,7 @@
     height:50px;
     width:50px;
     outline: solid 1px rgb(126, 126, 126);
-    margin:5px;
+
 }
 
 
