@@ -38,9 +38,17 @@ function randomPositionOnMap(){
         }
     };
 
+    function generateDimmedSquare(){
+        for ( let i = 0; i < 30; i++){
+        randomPositionOnMap().classList.add("dimmedSquare")
+    }
+    }
+
 
     drawMapGrid();
+    generateDimmedSquare();
     randomPositionOnMap().classList.add("playerOne");
+    randomPositionOnMap().classList.add("playerTwo");
 
     let currentPosition = document.getElementsByClassName("playerOne");
   
