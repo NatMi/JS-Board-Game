@@ -1,49 +1,63 @@
-*{
-    padding:0;
-    margin:0;
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.main-container{
-    margin: 10vh;
+.main-container {
+  margin: 10vh;
 }
 
-.container{
-    display:flex;
-    flex-flow: row wrap;
+.container {
+  display: flex;
+  flex-flow: row wrap;
 }
 
-.mapGridRow{
-    display:flex;
-    flex: 1 100%;
-    flex-direction: row;
+/*map*/
+.mapGridRow {
+  display: flex;
+  flex: 1 100%;
+  flex-direction: row;
 }
 
-.mapSquare{
-    height:50px;
-    width:50px;
-    outline: solid 1px rgb(126, 126, 126);
-
+.mapSquare {
+  height: 50px;
+  width: 50px;
+  outline: solid 1px rgb(126, 126, 126);
 }
 
-.chosenSquare{
-    background-color: #f0bc68 ;
-    height:50px;
-    width:50px;
-    outline: solid 1px rgb(126, 126, 126);
-
+.chosenSquare {
+  background-color: #f0bc68;
+  height: 50px;
+  width: 50px;
+  outline: solid 1px rgb(126, 126, 126);
 }
 
-
-.dimmedSquare{
-    background-color: rgb(110, 110, 110);
+.dimmedSquare {
+  background-color: rgb(99, 99, 99);
 }
 
-.playerOne{
-    background-image: url(../assets/player1.jpg);
-    background-size: cover;
+/*players*/
+.playerOne {
+  background-image: url(../assets/player1.jpg);
+  background-size: cover;
 }
 
-.playerTwo{
-    background-image: url(../assets/player2.jpg);
-    background-size: cover
+.playerTwo {
+  background-image: url(../assets/player2.jpg);
+  background-size: cover;
+}
+
+/*weapons*/
+.snowball {
+  background-color: blue;
+}
+
+.fish {
+  background-color: rgb(174, 243, 174);
+}
+.smallStone {
+  background-color: rgb(229, 153, 212);
+}
+.bigStone {
+  background-color: rgb(252, 88, 88);
 }
