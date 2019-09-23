@@ -1,5 +1,6 @@
 /*TODO:
  - add turns for players (player 2 is not moving on the map) - hightlight active player - check which player is active
+    ... event : move player with isActive=true, then change it to false and turn anorher player's attribute to true?
  - restrict players moves (right now player 1 can be placed anywhere on grid except dimmed and p2)
  - pick up new weapon / leave old weapon in the spot of the old one
  - add initial position of the players to be restricted (start from the opposite parts of the grid)
@@ -25,7 +26,7 @@ let pickableWeapons = [fish, smallStone, bigStone];
 
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
-
+let mapContainer = document.getElementById("map-container");
 let initialHealthStatus = 100;
 let defaultWeapon = snowball;
 
@@ -40,26 +41,19 @@ function randomPositionOnMap() {
 class Player {
   constructor(position) {
     this.isActive = null;
-    this.position = position;
     this.healthPoints = initialHealthStatus;
     this.Weapon = defaultWeapon;
+    this.position = position;
   }
 }
-
-//Generate map grid
+let mapGridArray = [
+  { type: "x", coordinate: [""] },
+  { type: "y", coordinate: [""] }
+];
+/////////////////////////////    Generate map grid    /////////////////////////////////////
 function generateDimmedSquare() {
   for (let i = 0; i < 20; i++) {
     randomPositionOnMap().classList.add("dimmedSquare");
-  }
-}
-//in progress: functionality to refresh mapGrid (generate new map in place of the old one)
-function eraseMapGrid() {
-  for (
-    let squaresErased = 0;
-    squaresErased < allMapSquares.length;
-    squaresErased++
-  ) {
-    allMapSquares[squaresErased].classList.remove("mapSquare");
   }
 }
 
@@ -73,7 +67,7 @@ function drawMapGrid() {
     for (let column = 0; column < 10; column++) {
       let mapSquare = document.createElement("div");
       mapSquare.className = "mapSquare";
-      mapSquare.id = `row${[row + 1]}-column${[column + 1]}`;
+      mapSquare.id = `r${[row + 1]}c${[column + 1]}`;
 
       mapGridRow.appendChild(mapSquare);
 
@@ -90,21 +84,38 @@ function drawMapGrid() {
   }
 }
 
-let currentPosition = document.getElementsByClassName("playerOne");
+drawMapGrid();
+//in progress: functionality to refresh mapGrid (generate new map in place of the old one)
+function eraseMapGrid() {
+  mapContainer.removeChild(mapGrid);
+}
 
+let currentPosition = document.getElementsByClassName("playerOne");
 // put Player On Square
 
 function putPlayerOnSquare() {
+  /*  1. Find out where the player is - get current position -----> currentPosition[0].id = "row9-column10"
+      2. Get player's row: restict moves to current row number +- 3
+      3. Get player's column: restict moves to current column number +- 3
+      4. Get available squares temporarily highlighted (hover on player?);
+      5.
+      6.
+
+  */
+
   currentPosition[0].classList.remove("playerOne");
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add("playerOne");
 
-  console.log(`Clicked on mapSquare with id "${chosenSquare.id}"`);
+  console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
 }
 
 // Click events
 const parent = document.querySelector("body");
 parent.addEventListener("click", event => {
+  //if (event.target.id === "btn-refresh-map") {
+  // drawMapGrid();
+  //}
   if (event.target.className === "mapSquare") {
     putPlayerOnSquare();
   } else {
@@ -112,4 +123,8 @@ parent.addEventListener("click", event => {
   }
 });
 
-drawMapGrid();
+let positionId = currentPosition[0].id;
+let x = document.getElementsByClassName("mapGridRow");
+let y = x[0].children[0];
+
+let currentRow = currentPosition.parentElement;

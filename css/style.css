@@ -25,7 +25,7 @@
   outline: solid 1px rgb(126, 126, 126);
 }
 
-.chosenSquare {
+#testSquare {
   background-color: #f0bc68;
   height: 50px;
   width: 50px;
@@ -60,4 +60,8 @@
 }
 .bigStone {
   background-color: rgb(252, 88, 88);
+}
+
+.playerOne.parentElement {
+  background: gray;
 }
