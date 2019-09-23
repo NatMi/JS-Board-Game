@@ -46,10 +46,6 @@ class Player {
     this.position = position;
   }
 }
-let mapGridArray = [
-  { type: "x", coordinate: [""] },
-  { type: "y", coordinate: [""] }
-];
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 function generateDimmedSquare() {
   for (let i = 0; i < 20; i++) {
@@ -67,7 +63,7 @@ function drawMapGrid() {
     for (let column = 0; column < 10; column++) {
       let mapSquare = document.createElement("div");
       mapSquare.className = "mapSquare";
-      mapSquare.id = `r${[row + 1]}c${[column + 1]}`;
+      mapSquare.id = `${[row + 1]}-${[column + 1]}`;
 
       mapGridRow.appendChild(mapSquare);
 
@@ -90,24 +86,44 @@ function eraseMapGrid() {
   mapContainer.removeChild(mapGrid);
 }
 
-let currentPosition = document.getElementsByClassName("playerOne");
+//movement utilities
+let currentPosition = document.getElementsByClassName("playerOne")[0];
+let accesibleSquare;
+function takePlayerAway() {
+  currentPosition.classList.remove("playerOne");
+}
+
+function transformCurrentPositionToArray() {
+  let currentId = currentPosition.id.split("-");
+  currentId[0] = parseInt(currentId[0]);
+  currentId[1] = parseInt(currentId[1]);
+  return currentId;
+}
+
 // put Player On Square
 
 function putPlayerOnSquare() {
-  /*  1. Find out where the player is - get current position -----> currentPosition[0].id = "row9-column10"
+  /*  1. Find out where the player is - get current position -----> currentPosition[0].id = "9-10"
       2. Get player's row: restict moves to current row number +- 3
       3. Get player's column: restict moves to current column number +- 3
       4. Get available squares temporarily highlighted (hover on player?);
       5.
       6.
-
   */
 
-  currentPosition[0].classList.remove("playerOne");
+  takePlayerAway();
+
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add("playerOne");
 
+  currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
+  let positionArray = transformCurrentPositionToArray();
+  console.log(positionArray);
+  let moveDown = `${positionArray[0] + 1}-${positionArray[1]}`;
+  console.log(moveDown);
+  accessibleSquare = document.getElementById(`${moveDown}`);
+  accessibleSquare.classList.add("testSquare");
 }
 
 // Click events
@@ -119,12 +135,9 @@ parent.addEventListener("click", event => {
   if (event.target.className === "mapSquare") {
     putPlayerOnSquare();
   } else {
-    console.log("Clicked on something outside of any mapSquare");
+    console.log("Clicked on a non accesible space");
   }
 });
 
-let positionId = currentPosition[0].id;
 let x = document.getElementsByClassName("mapGridRow");
 let y = x[0].children[0];
-
-let currentRow = currentPosition.parentElement;
