@@ -87,10 +87,38 @@ function eraseMapGrid() {
 }
 
 //movement utilities
+
 let currentPosition = document.getElementsByClassName("playerOne")[0];
-let accesibleSquare;
+
+/////////////////////   ACCESSIBLE SQUARES /////////////////////
+let positionArray = transformCurrentPositionToArray();
+console.log(positionArray);
+
+let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
+console.log(moveDownOne);
+let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
+console.log(moveDownTwo);
+let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
+console.log(moveDownThree);
+
+let moveDownOneId = document.getElementById(`${moveDownOne}`);
+moveDownOneId.classList.add("testSquare");
+
+let moveDownTwoId = document.getElementById(`${moveDownTwo}`);
+moveDownTwoId.classList.add("testSquare");
+
+let moveDownThreeId = document.getElementById(`${moveDownThree}`);
+moveDownThreeId.classList.add("testSquare");
+/////////////////////////////////////////////////////
+
 function takePlayerAway() {
   currentPosition.classList.remove("playerOne");
+}
+
+function clearAccessible() {
+  moveDownOneId.classList.remove("testSquare");
+  moveDownThreeId.classList.remove("testSquare");
+  moveDownTwoId.classList.remove("testSquare");
 }
 
 function transformCurrentPositionToArray() {
@@ -103,14 +131,12 @@ function transformCurrentPositionToArray() {
 // put Player On Square
 
 function putPlayerOnSquare() {
-  /*  1. Find out where the player is - get current position -----> currentPosition[0].id = "9-10"
+  /*  1. Find out accesible squares, drag them along with the player
       2. Get player's row: restict moves to current row number +- 3
       3. Get player's column: restict moves to current column number +- 3
-      4. Get available squares temporarily highlighted (hover on player?);
-      5.
-      6.
-  */
+      4. Get available squares temporarily highlighted (hover on player?);   */
 
+  clearAccessible();
   takePlayerAway();
 
   let chosenSquare = document.getElementById(event.target.id);
@@ -118,17 +144,30 @@ function putPlayerOnSquare() {
 
   currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
+
   let positionArray = transformCurrentPositionToArray();
   console.log(positionArray);
-  let moveDown = `${positionArray[0] + 1}-${positionArray[1]}`;
-  console.log(moveDown);
-  accessibleSquare = document.getElementById(`${moveDown}`);
-  accessibleSquare.classList.add("testSquare");
+
+  let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
+  console.log(moveDownOne);
+  let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
+  console.log(moveDownTwo);
+  let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
+  console.log(moveDownThree);
+
+  moveDownOneId = document.getElementById(`${moveDownOne}`);
+  moveDownOneId.classList.add("testSquare");
+
+  moveDownTwoId = document.getElementById(`${moveDownTwo}`);
+  moveDownTwoId.classList.add("testSquare");
+
+  moveDownThreeId = document.getElementById(`${moveDownThree}`);
+  moveDownThreeId.classList.add("testSquare");
 }
 
 // Click events
-const parent = document.querySelector("body");
-parent.addEventListener("click", event => {
+const body = document.querySelector("body");
+body.addEventListener("click", event => {
   //if (event.target.id === "btn-refresh-map") {
   // drawMapGrid();
   //}
