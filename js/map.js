@@ -94,6 +94,12 @@ let currentPosition = document.getElementsByClassName("playerOne")[0];
 let positionArray = transformCurrentPositionToArray();
 console.log(positionArray);
 
+/*for (let moveDown = 0; moveDown < 3; moveDown++) {
+  let moveDownId = document.getElementById(`${moveDown}`);
+  moveDownId.classList.add("testSquare");
+  console.log(moveDown);
+}*/
+
 let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
 console.log(moveDownOne);
 let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
@@ -102,13 +108,13 @@ let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
 console.log(moveDownThree);
 
 let moveDownOneId = document.getElementById(`${moveDownOne}`);
-moveDownOneId.classList.add("testSquare");
+moveDownOneId.classList.add("availableSquare");
 
 let moveDownTwoId = document.getElementById(`${moveDownTwo}`);
-moveDownTwoId.classList.add("testSquare");
+moveDownTwoId.classList.add("availableSquare");
 
 let moveDownThreeId = document.getElementById(`${moveDownThree}`);
-moveDownThreeId.classList.add("testSquare");
+moveDownThreeId.classList.add("availableSquare");
 /////////////////////////////////////////////////////
 
 function takePlayerAway() {
@@ -116,9 +122,9 @@ function takePlayerAway() {
 }
 
 function clearAccessible() {
-  moveDownOneId.classList.remove("testSquare");
-  moveDownThreeId.classList.remove("testSquare");
-  moveDownTwoId.classList.remove("testSquare");
+  moveDownOneId.classList.remove("availableSquare");
+  moveDownThreeId.classList.remove("availableSquare");
+  moveDownTwoId.classList.remove("availableSquare");
 }
 
 function transformCurrentPositionToArray() {
@@ -156,13 +162,13 @@ function putPlayerOnSquare() {
   console.log(moveDownThree);
 
   moveDownOneId = document.getElementById(`${moveDownOne}`);
-  moveDownOneId.classList.add("testSquare");
+  moveDownOneId.classList.add("availableSquare");
 
   moveDownTwoId = document.getElementById(`${moveDownTwo}`);
-  moveDownTwoId.classList.add("testSquare");
+  moveDownTwoId.classList.add("availableSquare");
 
   moveDownThreeId = document.getElementById(`${moveDownThree}`);
-  moveDownThreeId.classList.add("testSquare");
+  moveDownThreeId.classList.add("availableSquare");
 }
 
 // Click events
@@ -171,7 +177,7 @@ body.addEventListener("click", event => {
   //if (event.target.id === "btn-refresh-map") {
   // drawMapGrid();
   //}
-  if (event.target.className === "mapSquare") {
+  if (event.target.classList.contains("availableSquare")) {
     putPlayerOnSquare();
   } else {
     console.log("Clicked on a non accesible space");
