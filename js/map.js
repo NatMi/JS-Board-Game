@@ -134,13 +134,33 @@ function eraseMapGrid() {
 
 let currentPosition = document.getElementsByClassName("playerOne")[0];
 
-/////////////////////   ACCESSIBLE SQUARES /////////////////////
-let positionArray = transformCurrentPositionToArray();
-console.log(positionArray);
-
 function checkAvailableSquares() {
+  let positionArray = transformCurrentPositionToArray();
+  console.log(positionArray);
+
+  let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
+  console.log(moveDownOne);
+  let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
+  console.log(moveDownTwo);
+  let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
+  console.log(moveDownThree);
+
+  let moveDownOneId = document.getElementById(`${moveDownOne}`);
+  moveDownOneId.classList.add("availableSquare");
+
+  let moveDownTwoId = document.getElementById(`${moveDownTwo}`);
+  moveDownTwoId.classList.add("availableSquare");
+
+  let moveDownThreeId = document.getElementById(`${moveDownThree}`);
+  moveDownThreeId.classList.add("availableSquare");
+  //check until obstacle is met, max 3 times or: repeat 3 times to find obstacle, if obstacle not found: add available class. if found: stop the function
+  //
+  // if (newMoveDown.className === "dimmedSquare") {
+  // console.log("obstacle met");
+  // }
+  // else
   // let availableSquareShown = 0;
-  // while (availableSquareShown < 3) {
+  // while (availableSquareShown < 3) ||)
   //   let newMoveDown = `${positionArray[0] + 1}-${positionArray[1]}`;
   //   if (newMoveDown.className === "mapSquare") {
   //     let newMoveDownId = document.getElementById(`${newMoveDown}`);
@@ -149,32 +169,20 @@ function checkAvailableSquares() {
   //   }
   // }
 }
+checkAvailableSquares();
 
-let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
-console.log(moveDownOne);
-let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
-console.log(moveDownTwo);
-let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
-console.log(moveDownThree);
-
-let moveDownOneId = document.getElementById(`${moveDownOne}`);
-moveDownOneId.classList.add("availableSquare");
-
-let moveDownTwoId = document.getElementById(`${moveDownTwo}`);
-moveDownTwoId.classList.add("availableSquare");
-
-let moveDownThreeId = document.getElementById(`${moveDownThree}`);
-moveDownThreeId.classList.add("availableSquare");
-/////////////////////////////////////////////////////
+///////////////////////////////////////////////////// ^^^^^initial availables
 
 function takePlayerAway() {
   currentPosition.classList.remove("playerOne");
 }
 
+let availableList = document.getElementsByClassName("availableSquare"); // HTML collection
+
 function clearAccessible() {
-  moveDownOneId.classList.remove("availableSquare");
-  moveDownThreeId.classList.remove("availableSquare");
-  moveDownTwoId.classList.remove("availableSquare");
+  for (available of availableList) {
+    available.classList.remove("availableSquare");
+  }
 }
 
 function transformCurrentPositionToArray() {
