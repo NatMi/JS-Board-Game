@@ -53,7 +53,7 @@ class Player {
 // Generating dimmed squares - selecting random element from allMapSquares HTML collection and  adding new class to it
 function generateDimmedSquare() {
   let totalDimmed = 0;
-  while (totalDimmed < 20) {
+  while (totalDimmed < 15) {
     let newDimmedSquare = randomPositionOnMap();
 
     if (newDimmedSquare.className === "mapSquare") {
@@ -61,9 +61,16 @@ function generateDimmedSquare() {
       totalDimmed++;
     }
   }
-  console.log(
-    `total dimmed: ${document.querySelectorAll(".dimmedSquare").length}`
-  );
+}
+function generatePlayersPosition() {
+  let isOnMap = 0;
+  while (isOnMap < 1) {
+    let newPlayerOne = randomPositionOnMap();
+    if (newPlayerOne.className === "mapSquare") {
+      newPlayerOne.classList.add("playerOne");
+      isOnMap++;
+    }
+  }
 }
 //
 function drawMapGrid() {
@@ -86,7 +93,7 @@ function drawMapGrid() {
 
   generateDimmedSquare();
 
-  randomPositionOnMap().classList.add("playerOne");
+  generatePlayersPosition();
   randomPositionOnMap().classList.add("playerTwo");
 
   for (weapon of pickableWeapons) {
