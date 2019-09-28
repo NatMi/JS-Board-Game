@@ -29,6 +29,7 @@ let allMapSquares = document.getElementsByClassName("mapSquare");
 let mapContainer = document.getElementById("map-container");
 let initialHealthStatus = 100;
 let defaultWeapon = snowball;
+let dimmedSquareClass = "dimmedSquare";
 
 //Randomizing position on map grid --> returns random element from allMapSquares HTML collection
 function randomPositionOnMap() {
@@ -50,8 +51,9 @@ class Player {
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 
-// Generating dimmed squares - selecting random element from allMapSquares HTML collection and  adding new class to it
-function generateDimmedSquare() {
+// Support functions
+
+function generateDimmedSquares() {
   let totalDimmed = 0;
   while (totalDimmed < 15) {
     let newDimmedSquare = randomPositionOnMap();
@@ -72,7 +74,31 @@ function generatePlayersPosition() {
     }
   }
 }
-//
+
+function generatePlayersTwoPosition() {
+  let isOnMap = 0;
+  while (isOnMap < 1) {
+    let newPlayerOne = randomPositionOnMap();
+    if (newPlayerOne.className === "mapSquare") {
+      newPlayerOne.classList.add("playerTwo");
+      isOnMap++;
+    }
+  }
+}
+
+function generateWeapons() {
+  for (weapon of pickableWeapons) {
+    let isOnMap = 0;
+    while (isOnMap < 1) {
+      let newWeapon = randomPositionOnMap();
+      if (newWeapon.className === "mapSquare") {
+        newWeapon.classList.add(weapon.weaponName);
+        isOnMap++;
+      }
+    }
+  }
+}
+///////////////////////////////////// Draw map grid //////////////////////////////////
 function drawMapGrid() {
   for (let row = 0; row < 10; row++) {
     let mapGridRow = document.createElement("div");
@@ -91,23 +117,20 @@ function drawMapGrid() {
     }
   }
 
-  generateDimmedSquare();
-
+  generateDimmedSquares();
   generatePlayersPosition();
-  randomPositionOnMap().classList.add("playerTwo");
-
-  for (weapon of pickableWeapons) {
-    randomPositionOnMap().classList.add(weapon.weaponName);
-  }
+  generatePlayersTwoPosition();
+  generateWeapons();
 }
 
 drawMapGrid();
+
 //in progress: functionality to refresh mapGrid (generate new map in place of the old one)
 function eraseMapGrid() {
   mapContainer.removeChild(mapGrid);
 }
 
-//movement utilities
+///////////////////////// MOVEMENT ///////////////////////////
 
 let currentPosition = document.getElementsByClassName("playerOne")[0];
 
@@ -115,12 +138,17 @@ let currentPosition = document.getElementsByClassName("playerOne")[0];
 let positionArray = transformCurrentPositionToArray();
 console.log(positionArray);
 
-/*for (let p = 0; p < 3; p++) {
-  div z id `${positionArray[0] + p}-${positionArray[1]}`
-  let moveDownId = document.getElementById(`${moveDown}`);
-  moveDownId.classList.add("testSquare");
-  console.log(moveDown);
-}*/
+function checkAvailableSquares() {
+  // let availableSquareShown = 0;
+  // while (availableSquareShown < 3) {
+  //   let newMoveDown = `${positionArray[0] + 1}-${positionArray[1]}`;
+  //   if (newMoveDown.className === "mapSquare") {
+  //     let newMoveDownId = document.getElementById(`${newMoveDown}`);
+  //     newMoveDownId.classList.add("availableSquare");
+  //     availableSquareShown++;
+  //   }
+  // }
+}
 
 let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
 console.log(moveDownOne);
