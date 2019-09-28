@@ -177,9 +177,8 @@ function takePlayerAway() {
   currentPosition.classList.remove("playerOne");
 }
 
-let availableList = document.getElementsByClassName("availableSquare"); // HTML collection
-
 function clearAccessible() {
+  let availableList = document.getElementsByClassName("availableSquare");
   for (available of availableList) {
     available.classList.remove("availableSquare");
   }
@@ -208,25 +207,7 @@ function putPlayerOnSquare() {
 
   currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
-
-  let positionArray = transformCurrentPositionToArray();
-  console.log(positionArray);
-
-  let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
-  console.log(moveDownOne);
-  let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
-  console.log(moveDownTwo);
-  let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
-  console.log(moveDownThree);
-
-  moveDownOneId = document.getElementById(`${moveDownOne}`);
-  moveDownOneId.classList.add("availableSquare");
-
-  moveDownTwoId = document.getElementById(`${moveDownTwo}`);
-  moveDownTwoId.classList.add("availableSquare");
-
-  moveDownThreeId = document.getElementById(`${moveDownThree}`);
-  moveDownThreeId.classList.add("availableSquare");
+  checkAvailableSquares();
 }
 
 // Click events
@@ -244,6 +225,3 @@ body.addEventListener("click", event => {
     console.log("Clicked on a non accesible space");
   }
 });
-
-let x = document.getElementsByClassName("mapGridRow");
-let y = x[0].children[0];
