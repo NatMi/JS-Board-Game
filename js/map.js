@@ -30,10 +30,11 @@ let mapContainer = document.getElementById("map-container");
 let initialHealthStatus = 100;
 let defaultWeapon = snowball;
 
-//Randomizing position on map grid
+//Randomizing position on map grid --> returns random element from allMapSquares HTML collection
 function randomPositionOnMap() {
-  let randomMapSquare = Math.floor(Math.random() * allMapSquares.length);
-  return allMapSquares[randomMapSquare];
+  let randomIndex = Math.floor(Math.random() * allMapSquares.length);
+  let newRandomSquare = allMapSquares[randomIndex];
+  return newRandomSquare;
 }
 
 //Players
@@ -46,13 +47,25 @@ class Player {
     this.position = position;
   }
 }
-/////////////////////////////    Generate map grid    /////////////////////////////////////
-function generateDimmedSquare() {
-  for (let i = 0; i < 20; i++) {
-    randomPositionOnMap().classList.add("dimmedSquare");
-  }
-}
 
+/////////////////////////////    Generate map grid    /////////////////////////////////////
+
+// Generating dimmed squares - selecting random element from allMapSquares HTML collection and  adding new class to it
+function generateDimmedSquare() {
+  let totalDimmed = 0;
+  while (totalDimmed < 20) {
+    let newDimmedSquare = randomPositionOnMap();
+
+    if (newDimmedSquare.className === "mapSquare") {
+      newDimmedSquare.classList.add("dimmedSquare");
+      totalDimmed++;
+    }
+  }
+  console.log(
+    `total dimmed: ${document.querySelectorAll(".dimmedSquare").length}`
+  );
+}
+//
 function drawMapGrid() {
   for (let row = 0; row < 10; row++) {
     let mapGridRow = document.createElement("div");
@@ -72,6 +85,7 @@ function drawMapGrid() {
   }
 
   generateDimmedSquare();
+
   randomPositionOnMap().classList.add("playerOne");
   randomPositionOnMap().classList.add("playerTwo");
 
@@ -94,7 +108,8 @@ let currentPosition = document.getElementsByClassName("playerOne")[0];
 let positionArray = transformCurrentPositionToArray();
 console.log(positionArray);
 
-/*for (let moveDown = 0; moveDown < 3; moveDown++) {
+/*for (let p = 0; p < 3; p++) {
+  div z id `${positionArray[0] + p}-${positionArray[1]}`
   let moveDownId = document.getElementById(`${moveDown}`);
   moveDownId.classList.add("testSquare");
   console.log(moveDown);
@@ -177,7 +192,10 @@ body.addEventListener("click", event => {
   //if (event.target.id === "btn-refresh-map") {
   // drawMapGrid();
   //}
-  if (event.target.classList.contains("availableSquare")) {
+  if (
+    event.target.classList.contains("mapSquare") &
+    event.target.classList.contains("availableSquare")
+  ) {
     putPlayerOnSquare();
   } else {
     console.log("Clicked on a non accesible space");
