@@ -1,7 +1,7 @@
 /*TODO:
- - add turns for players (player 2 is not moving on the map) - hightlight active player - check which player is active
+ - add turns for players (player 2 is not moving on the map) - highlight active player - check which player is active
     ... event : move player with isActive=true, then change it to false and turn anorher player's attribute to true?
- - restrict players moves (right now player 1 can be placed anywhere on grid except dimmed and p2)
+ - restrict players moves 
  - pick up new weapon / leave old weapon in the spot of the old one
  - add initial position of the players to be restricted (start from the opposite parts of the grid)
  - work on dimmed fields (right now some places on grid are unaccessable, what if one of the players gets stuck?
@@ -132,45 +132,32 @@ function eraseMapGrid() {
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-let currentPosition = document.getElementsByClassName("playerOne")[0];
+let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class,
 
 function checkAvailableSquares() {
-  let positionArray = transformCurrentPositionToArray();
+  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
   console.log(positionArray);
+  let availableToCheck = 0; // 3. Define number of iterations
 
-  let moveDownOne = `${positionArray[0] + 1}-${positionArray[1]}`;
-  console.log(moveDownOne);
-  let moveDownTwo = `${positionArray[0] + 2}-${positionArray[1]}`;
-  console.log(moveDownTwo);
-  let moveDownThree = `${positionArray[0] + 3}-${positionArray[1]}`;
-  console.log(moveDownThree);
+  while (availableToCheck < 3) {
+    availableToCheck++;
+    console.log(`repetition nr: ${availableToCheck} `);
+    let newCheck = `${positionArray[0] + availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    console.log(`2. found an element with id ${newCheck}`);
 
-  let moveDownOneId = document.getElementById(`${moveDownOne}`);
-  moveDownOneId.classList.add("availableSquare");
-
-  let moveDownTwoId = document.getElementById(`${moveDownTwo}`);
-  moveDownTwoId.classList.add("availableSquare");
-
-  let moveDownThreeId = document.getElementById(`${moveDownThree}`);
-  moveDownThreeId.classList.add("availableSquare");
-  //check until obstacle is met, max 3 times or: repeat 3 times to find obstacle, if obstacle not found: add available class. if found: stop the function
-  //
-  // if (newMoveDown.className === "dimmedSquare") {
-  // console.log("obstacle met");
-  // }
-  // else
-  // let availableSquareShown = 0;
-  // while (availableSquareShown < 3) ||)
-  //   let newMoveDown = `${positionArray[0] + 1}-${positionArray[1]}`;
-  //   if (newMoveDown.className === "mapSquare") {
-  //     let newMoveDownId = document.getElementById(`${newMoveDown}`);
-  //     newMoveDownId.classList.add("availableSquare");
-  //     availableSquareShown++;
-  //   }
-  // }
+    if (newCheckId.classList.contains("dimmedSquare")) {
+      availableToCheck = 3;
+      console.log("obstacle met");
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+      console.log(`3. added "available" class to element with id ${newCheck}`);
+    }
+  }
 }
-checkAvailableSquares();
 
+checkAvailableSquares();
 ///////////////////////////////////////////////////// ^^^^^initial availables
 
 function takePlayerAway() {
