@@ -1,7 +1,6 @@
 /*TODO:
  - add turns for players (player 2 is not moving on the map) - highlight active player - check which player is active
     ... event : move player with isActive=true, then change it to false and turn anorher player's attribute to true?
- - restrict players moves 
  - pick up new weapon / leave old weapon in the spot of the old one
  - add initial position of the players to be restricted (start from the opposite parts of the grid)
  - work on dimmed fields (right now some places on grid are unaccessable, what if one of the players gets stuck?
@@ -31,28 +30,27 @@ let initialHealthStatus = 100;
 let defaultWeapon = snowball;
 let dimmedSquareClass = "dimmedSquare";
 
+//Players
+class Player {
+  constructor(cssClass, isActive) {
+    this.cssClass = cssClass;
+    this.isActive = isActive;
+    this.position = null;
+    this.healthPoints = initialHealthStatus;
+    this.Weapon = defaultWeapon;
+  }
+}
+let playerOne = new Player("playerOne", true);
+let playerTwo = new Player("playerTwo", false);
+
+/////////////////////////////    Generate map grid    /////////////////////////////////////
+
 //Randomizing position on map grid --> returns random element from allMapSquares HTML collection
 function randomPositionOnMap() {
   let randomIndex = Math.floor(Math.random() * allMapSquares.length);
   let newRandomSquare = allMapSquares[randomIndex];
   return newRandomSquare;
 }
-
-//Players
-
-class Player {
-  constructor(position) {
-    this.isActive = null;
-    this.healthPoints = initialHealthStatus;
-    this.Weapon = defaultWeapon;
-    this.position = position;
-  }
-}
-
-/////////////////////////////    Generate map grid    /////////////////////////////////////
-
-// Support functions
-
 function generateDimmedSquares() {
   let totalDimmed = 0;
   while (totalDimmed < 15) {
@@ -64,25 +62,15 @@ function generateDimmedSquares() {
     }
   }
 }
-function generatePlayersPosition() {
+function generatePlayersPosition(player) {
   let isOnMap = 0;
   while (isOnMap < 1) {
-    let newPlayerOne = randomPositionOnMap();
-    if (newPlayerOne.className === "mapSquare") {
-      newPlayerOne.classList.add("playerOne");
+    let newPlayer = randomPositionOnMap();
+    if (newPlayer.className === "mapSquare") {
+      newPlayer.classList.add(player.cssClass);
       isOnMap++;
     }
-  }
-}
-
-function generatePlayersTwoPosition() {
-  let isOnMap = 0;
-  while (isOnMap < 1) {
-    let newPlayerOne = randomPositionOnMap();
-    if (newPlayerOne.className === "mapSquare") {
-      newPlayerOne.classList.add("playerTwo");
-      isOnMap++;
-    }
+    player.position = document.getElementsByClassName(player.cssClass)[0];
   }
 }
 
@@ -118,21 +106,25 @@ function drawMapGrid() {
   }
 
   generateDimmedSquares();
-  generatePlayersPosition();
-  generatePlayersTwoPosition();
+  generatePlayersPosition(playerOne);
+  generatePlayersPosition(playerTwo);
   generateWeapons();
 }
 
 drawMapGrid();
 
-//in progress: functionality to refresh mapGrid (generate new map in place of the old one)
-function eraseMapGrid() {
-  mapContainer.removeChild(mapGrid);
-}
-
 ///////////////////////// MOVEMENT ///////////////////////////
 
-let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class
+let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class (returns element)
+
+let currentPositionTest = document.getElementsByClassName("playerTwo")[0];
+
+function transformCurrentPositionToArray(player) {
+  let currentId = currentPosition.id.split("-");
+  currentId[0] = parseInt(currentId[0]);
+  currentId[1] = parseInt(currentId[1]);
+  return currentId;
+}
 
 //up
 function checkAvailableSquaresUp() {
@@ -239,8 +231,8 @@ checkAvailableSquares();
 
 ////////////////////
 
-function takePlayerAway() {
-  currentPosition.classList.remove("playerOne");
+function takePlayerAway(player) {
+  currentPosition.classList.remove(player.cssClass);
 }
 
 function clearAccessible() {
@@ -262,39 +254,31 @@ function clearAccessible() {
   );
 }
 
-function transformCurrentPositionToArray() {
-  let currentId = currentPosition.id.split("-");
-  currentId[0] = parseInt(currentId[0]);
-  currentId[1] = parseInt(currentId[1]);
-  return currentId;
-}
+// movePlayer
 
-// put Player On Square
-
-function putPlayerOnSquare() {
+function movePlayer(player) {
   clearAccessible();
-  takePlayerAway();
+  takePlayerAway(player);
 
   let chosenSquare = document.getElementById(event.target.id);
-  chosenSquare.classList.add("playerOne");
+  chosenSquare.classList.add(player.cssClass);
 
   currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
 
   checkAvailableSquares();
+  /*TODO: add function that changes active status*/
 }
 
-// Click events
+//////////////////////////   CLICK EVENTS   /////////////////////////////////////////
+
 const body = document.querySelector("body");
 body.addEventListener("click", event => {
-  //if (event.target.id === "btn-refresh-map") {
-  // drawMapGrid();
-  //}
   if (
     event.target.classList.contains("mapSquare") &
     event.target.classList.contains("availableSquare")
   ) {
-    putPlayerOnSquare();
+    movePlayer(playerOne);
   } else {
     console.log("Clicked on a non accesible space");
   }
