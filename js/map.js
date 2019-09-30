@@ -132,8 +132,9 @@ function eraseMapGrid() {
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class,
-// //up
+let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class
+
+//up
 function checkAvailableSquaresUp() {
   console.log("checking: up");
   let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
@@ -147,8 +148,10 @@ function checkAvailableSquaresUp() {
     console.log(`1. calculated id: ${newCheck}`);
     let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
     console.log(`2. found an element with id ${newCheck}`);
-
-    if (newCheckId.classList.contains("dimmedSquare")) {
+    if (newCheckId == null) {
+      availableToCheck = 3;
+      console.log("top border met");
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
       availableToCheck = 3;
       console.log("obstacle met");
     } else {
@@ -172,7 +175,10 @@ function checkAvailableSquaresDown() {
     let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
     console.log(`2. found an element with id ${newCheck}`);
 
-    if (newCheckId.classList.contains("dimmedSquare")) {
+    if (newCheckId == null) {
+      availableToCheck = 3;
+      console.log("bottom border met");
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
       availableToCheck = 3;
       console.log("obstacle met");
     } else {
@@ -181,9 +187,11 @@ function checkAvailableSquaresDown() {
     }
   }
 }
+//left
 
-checkAvailableSquaresDown(); // checks squares upon game start
+// checks availableSquares upon game start
 checkAvailableSquaresUp();
+checkAvailableSquaresDown();
 ////////////////////
 
 function takePlayerAway() {
