@@ -133,8 +133,33 @@ function eraseMapGrid() {
 ///////////////////////// MOVEMENT ///////////////////////////
 
 let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class,
+// //up
+function checkAvailableSquaresUp() {
+  console.log("checking: up");
+  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
+  console.log(positionArray);
+  let availableToCheck = 0; // 3. Define number of iterations
 
-function checkAvailableSquares() {
+  while (availableToCheck < 3) {
+    availableToCheck++;
+    console.log(`repetition nr: ${availableToCheck} `);
+    let newCheck = `${positionArray[0] - availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    console.log(`2. found an element with id ${newCheck}`);
+
+    if (newCheckId.classList.contains("dimmedSquare")) {
+      availableToCheck = 3;
+      console.log("obstacle met");
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+      console.log(`3. added "available" class to element with id ${newCheck}`);
+    }
+  }
+}
+//down
+function checkAvailableSquaresDown() {
+  console.log("checking: down");
   let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
   console.log(positionArray);
   let availableToCheck = 0; // 3. Define number of iterations
@@ -157,8 +182,9 @@ function checkAvailableSquares() {
   }
 }
 
-checkAvailableSquares();
-///////////////////////////////////////////////////// ^^^^^initial availables
+checkAvailableSquaresDown(); // checks squares upon game start
+checkAvailableSquaresUp();
+////////////////////
 
 function takePlayerAway() {
   currentPosition.classList.remove("playerOne");
@@ -194,7 +220,8 @@ function putPlayerOnSquare() {
 
   currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
-  checkAvailableSquares();
+  checkAvailableSquaresUp();
+  checkAvailableSquaresDown();
 }
 
 // Click events
