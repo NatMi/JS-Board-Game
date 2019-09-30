@@ -136,62 +136,107 @@ let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab
 
 //up
 function checkAvailableSquaresUp() {
-  console.log("checking: up");
+  // console.log("checking: up");
   let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  console.log(positionArray);
+  // console.log(positionArray);
   let availableToCheck = 0; // 3. Define number of iterations
 
   while (availableToCheck < 3) {
     availableToCheck++;
-    console.log(`repetition nr: ${availableToCheck} `);
+    // console.log(`repetition nr: ${availableToCheck} `);
     let newCheck = `${positionArray[0] - availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
+    // console.log(`1. calculated id: ${newCheck}`);
     let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    console.log(`2. found an element with id ${newCheck}`);
+    // console.log(`2. found an element with id ${newCheck}`);
     if (newCheckId == null) {
       availableToCheck = 3;
-      console.log("top border met");
+      // console.log("top border met");
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       availableToCheck = 3;
-      console.log("obstacle met");
+      // console.log("obstacle met");
     } else {
       newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
+      // console.log(`3. added "available" class to element with id ${newCheck}`);
     }
   }
 }
 //down
+let availableList = document.getElementsByClassName("availableSquare");
 function checkAvailableSquaresDown() {
-  console.log("checking: down");
+  // console.log("checking: down");
   let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  console.log(positionArray);
   let availableToCheck = 0; // 3. Define number of iterations
 
   while (availableToCheck < 3) {
     availableToCheck++;
-    console.log(`repetition nr: ${availableToCheck} `);
     let newCheck = `${positionArray[0] + availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
     let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    console.log(`2. found an element with id ${newCheck}`);
 
     if (newCheckId == null) {
       availableToCheck = 3;
-      console.log("bottom border met");
+      // console.log("bottom border met");
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       availableToCheck = 3;
-      console.log("obstacle met");
     } else {
       newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
     }
   }
 }
 //left
+function checkAvailableSquaresRight() {
+  // console.log("checking: right");
+  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
+  let availableToCheck = 0; // 3. Define number of iterations
 
+  while (availableToCheck < 3) {
+    availableToCheck++;
+    let newCheck = `${positionArray[0]}-${positionArray[1] + availableToCheck}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+
+    if (newCheckId == null) {
+      availableToCheck = 3;
+      // console.log("right border met");
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
+      availableToCheck = 3;
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+    }
+  }
+}
+
+//right
+function checkAvailableSquaresLeft() {
+  // console.log("checking: left");
+  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
+  let availableToCheck = 0; // 3. Define number of iterations
+
+  while (availableToCheck < 3) {
+    availableToCheck++;
+    let newCheck = `${positionArray[0]}-${positionArray[1] - availableToCheck}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+
+    if (newCheckId == null) {
+      availableToCheck = 3;
+      // console.log("left border met");
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
+      availableToCheck = 3;
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+    }
+  }
+}
 // checks availableSquares upon game start
-checkAvailableSquaresUp();
-checkAvailableSquaresDown();
+function checkAvailableSquares() {
+  console.log("1. Checking available squares");
+  checkAvailableSquaresUp();
+  checkAvailableSquaresDown();
+  checkAvailableSquaresRight();
+  checkAvailableSquaresLeft();
+  console.log(`2. AvailableList after check: ${availableList.length}`);
+}
+
+checkAvailableSquares();
+
 ////////////////////
 
 function takePlayerAway() {
@@ -199,10 +244,22 @@ function takePlayerAway() {
 }
 
 function clearAccessible() {
-  let availableList = document.getElementsByClassName("availableSquare");
-  for (available of availableList) {
-    available.classList.remove("availableSquare");
+  console.log(`CLEAR: availableList before removal = ${availableList.length}`);
+
+  let i = availableList.length;
+  while (i > 0) {
+    console.log(`clearing ${availableList[i - 1].id}`);
+    availableList[i - 1].classList.remove("availableSquare");
+
+    console.log(
+      `cleared index = ${i} availableList.length = ${availableList.length}`
+    );
+    i--;
   }
+
+  console.log(
+    `CLEAR FINISHED: availableList after removal = ${availableList.length}`
+  );
 }
 
 function transformCurrentPositionToArray() {
@@ -215,11 +272,6 @@ function transformCurrentPositionToArray() {
 // put Player On Square
 
 function putPlayerOnSquare() {
-  /*  1. Find out accesible squares, drag them along with the player
-      2. Get player's row: restict moves to current row number +- 3
-      3. Get player's column: restict moves to current column number +- 3
-      4. Get available squares temporarily highlighted (hover on player?);   */
-
   clearAccessible();
   takePlayerAway();
 
@@ -228,8 +280,8 @@ function putPlayerOnSquare() {
 
   currentPosition = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
-  checkAvailableSquaresUp();
-  checkAvailableSquaresDown();
+
+  checkAvailableSquares();
 }
 
 // Click events
