@@ -36,6 +36,12 @@ class Player {
     this.cssClass = cssClass;
     this.isActive = isActive;
     this.position = null;
+    this.positionArray = () => {
+      let currentId = this.position.id.split("-");
+      currentId[0] = parseInt(currentId[0]);
+      currentId[1] = parseInt(currentId[1]);
+      return currentId;
+    };
     this.healthPoints = initialHealthStatus;
     this.Weapon = defaultWeapon;
   }
@@ -87,21 +93,17 @@ function generateWeapons() {
   }
 }
 ///////////////////////////////////// Draw map grid //////////////////////////////////
-function drawMapGrid() {
-  for (let row = 0; row < 10; row++) {
+function drawMapGrid(size) {
+  for (let row = 0; row < size; row++) {
     let mapGridRow = document.createElement("div");
     mapGridRow.className = "mapGridRow";
     mapGrid.appendChild(mapGridRow);
-    console.log("Row generated");
 
-    for (let column = 0; column < 10; column++) {
+    for (let column = 0; column < size; column++) {
       let mapSquare = document.createElement("div");
       mapSquare.className = "mapSquare";
       mapSquare.id = `${[row + 1]}-${[column + 1]}`;
-
       mapGridRow.appendChild(mapSquare);
-
-      console.log("Squares in row generated");
     }
   }
 
@@ -111,110 +113,99 @@ function drawMapGrid() {
   generateWeapons();
 }
 
-drawMapGrid();
+drawMapGrid(10);
+let availableList = document.getElementsByClassName("availableSquare");
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-let currentPosition = document.getElementsByClassName("playerOne")[0]; //1. Grab first index of HTML collection for "playerOne" class (returns element)
+// test
+function testCheck(vertical, horizontal) {
+  let newCheck = `${vertical}-${horizontal}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+  console.log(`1. calculated id: ${newCheck}`);
+  let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+  // console.log(`2. found an element with id ${newCheck}`);
 
-let currentPositionTest = document.getElementsByClassName("playerTwo")[0];
-
-function transformCurrentPositionToArray(player) {
-  let currentId = currentPosition.id.split("-");
-  currentId[0] = parseInt(currentId[0]);
-  currentId[1] = parseInt(currentId[1]);
-  return currentId;
+  if (newCheckId == null) {
+    console.log("border met");
+  } else if (newCheckId.classList.contains("dimmedSquare")) {
+    console.log("obstacle met");
+  } else {
+    newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+    console.log(`3. added "available" class to element with id ${newCheck}`);
+  }
 }
 
 //up
 function checkAvailableSquaresUp() {
-  // console.log("checking: up");
-  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  // console.log(positionArray);
-  let availableToCheck = 0; // 3. Define number of iterations
+  console.log("checking: up");
+  let positionArray = playerOne.positionArray();
+  let x = positionArray[0];
+  let y = positionArray[1];
 
-  while (availableToCheck < 3) {
-    availableToCheck++;
-    // console.log(`repetition nr: ${availableToCheck} `);
-    let newCheck = `${positionArray[0] - availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    // console.log(`1. calculated id: ${newCheck}`);
+  for (let i = 0; i < 4; i++) {
+    console.log(`repetition nr: ${i} `);
+
+    x = positionArray[0] - i;
+
+    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
     let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
     // console.log(`2. found an element with id ${newCheck}`);
+
     if (newCheckId == null) {
-      availableToCheck = 3;
-      // console.log("top border met");
+      console.log("border met");
+      i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      availableToCheck = 3;
-      // console.log("obstacle met");
+      console.log("obstacle met");
+      i = 4;
     } else {
       newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      // console.log(`3. added "available" class to element with id ${newCheck}`);
+      console.log(`3. added "available" class to element with id ${newCheck}`);
     }
   }
 }
+
 //down
-let availableList = document.getElementsByClassName("availableSquare");
 function checkAvailableSquaresDown() {
   // console.log("checking: down");
-  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
+  let positionArray = playerOne.positionArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
   let availableToCheck = 0; // 3. Define number of iterations
+  let x = positionArray[0];
+  let y = positionArray[1];
 
   while (availableToCheck < 3) {
     availableToCheck++;
-    let newCheck = `${positionArray[0] + availableToCheck}-${positionArray[1]}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-
-    if (newCheckId == null) {
-      availableToCheck = 3;
-      // console.log("bottom border met");
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      availableToCheck = 3;
-    } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-    }
-  }
-}
-//left
-function checkAvailableSquaresRight() {
-  // console.log("checking: right");
-  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  let availableToCheck = 0; // 3. Define number of iterations
-
-  while (availableToCheck < 3) {
-    availableToCheck++;
-    let newCheck = `${positionArray[0]}-${positionArray[1] + availableToCheck}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-
-    if (newCheckId == null) {
-      availableToCheck = 3;
-      // console.log("right border met");
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      availableToCheck = 3;
-    } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-    }
+    x = positionArray[0] + availableToCheck;
+    testCheck(x, y);
   }
 }
 
 //right
-function checkAvailableSquaresLeft() {
-  // console.log("checking: left");
-  let positionArray = transformCurrentPositionToArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
+function checkAvailableSquaresRight() {
+  // console.log("checking: right");
+  let positionArray = playerOne.positionArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
   let availableToCheck = 0; // 3. Define number of iterations
+  let x = positionArray[0];
+  let y = positionArray[1];
 
   while (availableToCheck < 3) {
     availableToCheck++;
-    let newCheck = `${positionArray[0]}-${positionArray[1] - availableToCheck}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    y = positionArray[1] + availableToCheck;
+    testCheck(x, y);
+  }
+}
 
-    if (newCheckId == null) {
-      availableToCheck = 3;
-      // console.log("left border met");
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      availableToCheck = 3;
-    } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-    }
+//left
+function checkAvailableSquaresLeft() {
+  let positionArray = playerOne.positionArray();
+  let availableToCheck = 0;
+  let x = positionArray[0];
+  let y = positionArray[1];
+
+  while (availableToCheck < 3) {
+    availableToCheck++;
+    y = positionArray[1] - availableToCheck;
+    testCheck(x, y);
   }
 }
 // checks availableSquares upon game start
@@ -232,26 +223,13 @@ checkAvailableSquares();
 ////////////////////
 
 function takePlayerAway(player) {
-  currentPosition.classList.remove(player.cssClass);
+  document.getElementById(player.position.id).classList.remove(player.cssClass);
 }
 
 function clearAccessible() {
-  console.log(`CLEAR: availableList before removal = ${availableList.length}`);
-
-  let i = availableList.length;
-  while (i > 0) {
-    console.log(`clearing ${availableList[i - 1].id}`);
-    availableList[i - 1].classList.remove("availableSquare");
-
-    console.log(
-      `cleared index = ${i} availableList.length = ${availableList.length}`
-    );
-    i--;
+  while (availableList.length) {
+    availableList[availableList.length - 1].classList.remove("availableSquare");
   }
-
-  console.log(
-    `CLEAR FINISHED: availableList after removal = ${availableList.length}`
-  );
 }
 
 // movePlayer
@@ -263,7 +241,7 @@ function movePlayer(player) {
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add(player.cssClass);
 
-  currentPosition = chosenSquare;
+  player.position = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
 
   checkAvailableSquares();
