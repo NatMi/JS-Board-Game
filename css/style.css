@@ -13,15 +13,17 @@ body {
   justify-content: center;
 }
 h1 {
+  margin: 2rem 0rem;
   font-size: 2rem;
   color: rgb(42, 84, 133);
   font-family: "Cinzel Decorative";
 }
 
 #mapGrid {
+  padding: 1rem 1rem;
   align-content: center;
   justify-content: center;
-  background-color: rgba(198, 225, 250, 0.438);
+  background-color: rgba(198, 225, 250, 0.253);
 }
 
 .container {
@@ -42,12 +44,12 @@ h1 {
 .mapSquare {
   height: 50px;
   width: 50px;
-  background-color: #def8f2c7;
+  background-color: #eefbff;
   border: solid 1px #0e4b5a98;
 }
 
 .availableSquare {
-  box-shadow: inset 0 0 10px #29ad64;
+  box-shadow: inset 0 0 10px #29ad64ef;
 }
 
 .dimmedSquare {
