@@ -118,7 +118,6 @@ let availableList = document.getElementsByClassName("availableSquare");
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-// test
 function testCheck(vertical, horizontal) {
   let newCheck = `${vertical}-${horizontal}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
   console.log(`1. calculated id: ${newCheck}`);
@@ -136,16 +135,14 @@ function testCheck(vertical, horizontal) {
 }
 
 //up
-function checkAvailableSquaresUp() {
+function checkAvailableSquaresUp(player) {
   console.log("checking: up");
-  let positionArray = playerOne.positionArray();
-  let x = positionArray[0];
-  let y = positionArray[1];
 
   for (let i = 0; i < 4; i++) {
     console.log(`repetition nr: ${i} `);
-
-    x = positionArray[0] - i;
+    let x = player.positionArray()[0];
+    let y = player.positionArray()[1];
+    x = player.positionArray()[0] - i;
 
     let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
     console.log(`1. calculated id: ${newCheck}`);
@@ -166,32 +163,58 @@ function checkAvailableSquaresUp() {
 }
 
 //down
-function checkAvailableSquaresDown() {
-  // console.log("checking: down");
-  let positionArray = playerOne.positionArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  let availableToCheck = 0; // 3. Define number of iterations
-  let x = positionArray[0];
-  let y = positionArray[1];
+function checkAvailableSquaresDown(player) {
+  console.log("checking: up");
 
-  while (availableToCheck < 3) {
-    availableToCheck++;
-    x = positionArray[0] + availableToCheck;
-    testCheck(x, y);
+  for (let i = 0; i < 4; i++) {
+    console.log(`repetition nr: ${i} `);
+    let x = player.positionArray()[0];
+    let y = player.positionArray()[1];
+    x = player.positionArray()[0] + i;
+
+    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    // console.log(`2. found an element with id ${newCheck}`);
+
+    if (newCheckId == null) {
+      console.log("border met");
+      i = 4;
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
+      console.log("obstacle met");
+      i = 4;
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+      console.log(`3. added "available" class to element with id ${newCheck}`);
+    }
   }
 }
 
 //right
-function checkAvailableSquaresRight() {
-  // console.log("checking: right");
-  let positionArray = playerOne.positionArray(); // 2. Grab id of the element with playerOne class, turn it into an array instead of string
-  let availableToCheck = 0; // 3. Define number of iterations
-  let x = positionArray[0];
-  let y = positionArray[1];
+function checkAvailableSquaresRight(player) {
+  console.log("checking: up");
 
-  while (availableToCheck < 3) {
-    availableToCheck++;
-    y = positionArray[1] + availableToCheck;
-    testCheck(x, y);
+  for (let i = 0; i < 4; i++) {
+    console.log(`repetition nr: ${i} `);
+    let x = player.positionArray()[0];
+    let y = player.positionArray()[1];
+    y = player.positionArray()[1] + i;
+
+    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    // console.log(`2. found an element with id ${newCheck}`);
+
+    if (newCheckId == null) {
+      console.log("border met");
+      i = 4;
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
+      console.log("obstacle met");
+      i = 4;
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+      console.log(`3. added "available" class to element with id ${newCheck}`);
+    }
   }
 }
 
@@ -208,17 +231,42 @@ function checkAvailableSquaresLeft() {
     testCheck(x, y);
   }
 }
-// checks availableSquares upon game start
-function checkAvailableSquares() {
-  console.log("1. Checking available squares");
-  checkAvailableSquaresUp();
-  checkAvailableSquaresDown();
-  checkAvailableSquaresRight();
-  checkAvailableSquaresLeft();
-  console.log(`2. AvailableList after check: ${availableList.length}`);
+function checkAvailableSquaresLeft(player) {
+  console.log("checking: up");
+
+  for (let i = 0; i < 4; i++) {
+    console.log(`repetition nr: ${i} `);
+    let x = player.positionArray()[0];
+    let y = player.positionArray()[1];
+    y = player.positionArray()[1] - i;
+
+    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
+    console.log(`1. calculated id: ${newCheck}`);
+    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
+    // console.log(`2. found an element with id ${newCheck}`);
+
+    if (newCheckId == null) {
+      console.log("border met");
+      i = 4;
+    } else if (newCheckId.classList.contains("dimmedSquare")) {
+      console.log("obstacle met");
+      i = 4;
+    } else {
+      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
+      console.log(`3. added "available" class to element with id ${newCheck}`);
+    }
+  }
 }
 
-checkAvailableSquares();
+// checks availableSquares upon game start
+function checkAvailableSquares(player) {
+  checkAvailableSquaresUp(player);
+  checkAvailableSquaresDown(player);
+  checkAvailableSquaresRight(player);
+  checkAvailableSquaresLeft(player);
+}
+
+checkAvailableSquares(playerOne);
 
 ////////////////////
 
@@ -244,7 +292,7 @@ function movePlayer(player) {
   player.position = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
 
-  checkAvailableSquares();
+  checkAvailableSquares(player);
   /*TODO: add function that changes active status*/
 }
 
