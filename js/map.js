@@ -34,7 +34,7 @@ let dimmedSquareClass = "dimmedSquare";
 class Player {
   constructor(cssClass, isActive) {
     this.cssClass = cssClass;
-    this.isActive = isActive;
+    this.isActive = false;
     this.position = null;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
@@ -46,8 +46,16 @@ class Player {
     this.Weapon = defaultWeapon;
   }
 }
-let playerOne = new Player("playerOne", true);
-let playerTwo = new Player("playerTwo", false);
+let playerOne = new Player("playerOne");
+let playerTwo = new Player("playerTwo");
+
+let activePlayer = () => {
+  if (playerOne.isActive == true) {
+    return playerOne;
+  } else if (playerTwo.isActive == true) {
+    return playerTwo;
+  }
+};
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 
@@ -109,6 +117,7 @@ function drawMapGrid(size) {
 
   generateDimmedSquares();
   generatePlayersPosition(playerOne);
+  playerOne.isActive = true;
   generatePlayersPosition(playerTwo);
   generateWeapons();
 }
@@ -292,7 +301,15 @@ function movePlayer(player) {
   player.position = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
 
-  checkAvailableSquares(player);
+  if (activePlayer() == playerOne) {
+    playerOne.isActive = false;
+    playerTwo.isActive = true;
+  } else if (activePlayer() == playerTwo) {
+    playerTwo.isActive = false;
+    playerOne.isActive = true;
+  }
+
+  checkAvailableSquares(activePlayer());
   /*TODO: add function that changes active status*/
 }
 
@@ -304,7 +321,7 @@ body.addEventListener("click", event => {
     event.target.classList.contains("mapSquare") &
     event.target.classList.contains("availableSquare")
   ) {
-    movePlayer(playerOne);
+    movePlayer(activePlayer());
   } else {
     console.log("Clicked on a non accesible space");
   }
