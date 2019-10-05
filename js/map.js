@@ -32,8 +32,9 @@ let dimmedSquareClass = "dimmedSquare";
 
 //Players
 class Player {
-  constructor(cssClass, isActive) {
+  constructor(cssClass, statboxId) {
     this.cssClass = cssClass;
+    this.statboxId = statboxId;
     this.isActive = false;
     this.position = null;
     this.healthPoints = initialHealthStatus;
@@ -46,8 +47,8 @@ class Player {
     };
   }
 }
-let playerOne = new Player("playerOne");
-let playerTwo = new Player("playerTwo");
+let playerOne = new Player("playerOne", "statboxOne");
+let playerTwo = new Player("playerTwo", "statboxTwo");
 
 let activePlayer = () => {
   if (playerOne.isActive == true) {
@@ -262,7 +263,7 @@ function movePlayer(player) {
     playerTwo.isActive = false;
     playerOne.isActive = true;
   }
-  document.getElementById("testP").innerHTML = "";
+  document.getElementById(`${player.statboxId}`).innerHTML = "";
   statboxFunction(player);
   checkAvailableSquares(activePlayer());
 }
@@ -287,25 +288,26 @@ function statboxFunction(player) {
   let paragraphHealth = document.createElement("p");
   let health = document.createTextNode(`Health: ${player.healthPoints}`);
   paragraphHealth.appendChild(health);
-  document.getElementById("testP").appendChild(paragraphHealth);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphHealth);
 
   let paragraphWeapon = document.createElement("p");
   let weapon = document.createTextNode(
     `Weapon: ${player.Weapon.weaponCssClass}`
   );
   paragraphWeapon.appendChild(weapon);
-  document.getElementById("testP").appendChild(paragraphWeapon);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphWeapon);
 
   let paragraphDamage = document.createElement("p");
   let damage = document.createTextNode(`Damage: ${player.Weapon.weaponDamage}`);
 
   paragraphDamage.appendChild(damage);
-  document.getElementById("testP").appendChild(paragraphDamage);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphDamage);
 
   let paragraphPosition = document.createElement("p");
   let position = document.createTextNode(`Position: ${player.position.id}`);
 
   paragraphPosition.appendChild(position);
-  document.getElementById("testP").appendChild(paragraphPosition);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphPosition);
 }
 statboxFunction(playerOne);
+statboxFunction(playerTwo);
