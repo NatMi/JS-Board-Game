@@ -263,7 +263,7 @@ function movePlayer(player) {
     playerOne.isActive = true;
   }
   document.getElementById("testP").innerHTML = "";
-  statboxFunction();
+  statboxFunction(player);
   checkAvailableSquares(activePlayer());
 }
 
@@ -281,25 +281,31 @@ body.addEventListener("click", event => {
   }
 });
 
-function statboxFunction() {
+// statbox
+
+function statboxFunction(player) {
   let paragraphHealth = document.createElement("p");
-  let health = document.createTextNode(`Health: ${playerOne.healthPoints}`);
+  let health = document.createTextNode(`Health: ${player.healthPoints}`);
   paragraphHealth.appendChild(health);
   document.getElementById("testP").appendChild(paragraphHealth);
 
   let paragraphWeapon = document.createElement("p");
   let weapon = document.createTextNode(
-    `Weapon: ${playerOne.Weapon.weaponCssClass}`
+    `Weapon: ${player.Weapon.weaponCssClass}`
   );
   paragraphWeapon.appendChild(weapon);
   document.getElementById("testP").appendChild(paragraphWeapon);
 
   let paragraphDamage = document.createElement("p");
-  let damage = document.createTextNode(
-    `Damage: ${playerOne.Weapon.weaponDamage}`
-  );
+  let damage = document.createTextNode(`Damage: ${player.Weapon.weaponDamage}`);
 
   paragraphDamage.appendChild(damage);
   document.getElementById("testP").appendChild(paragraphDamage);
+
+  let paragraphPosition = document.createElement("p");
+  let position = document.createTextNode(`Position: ${player.position.id}`);
+
+  paragraphPosition.appendChild(position);
+  document.getElementById("testP").appendChild(paragraphPosition);
 }
-statboxFunction();
+statboxFunction(playerOne);
