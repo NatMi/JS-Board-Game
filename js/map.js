@@ -10,8 +10,8 @@
 
 //Weapons
 class Weapon {
-  constructor(weaponName, weaponDamage) {
-    this.weaponName = weaponName;
+  constructor(weaponCssClass, weaponDamage) {
+    this.weaponCssClass = weaponCssClass;
     this.weaponDamage = weaponDamage;
   }
 }
@@ -22,12 +22,12 @@ let smallStone = new Weapon("smallStone", 15);
 let bigStone = new Weapon("bigStone", 20);
 
 let pickableWeapons = [fish, smallStone, bigStone];
+let defaultWeapon = snowball;
 
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
 let mapContainer = document.getElementById("map-container");
 let initialHealthStatus = 100;
-let defaultWeapon = snowball;
 let dimmedSquareClass = "dimmedSquare";
 
 //Players
@@ -36,14 +36,14 @@ class Player {
     this.cssClass = cssClass;
     this.isActive = false;
     this.position = null;
+    this.healthPoints = initialHealthStatus;
+    this.Weapon = defaultWeapon;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
       currentId[1] = parseInt(currentId[1]);
       return currentId;
     };
-    this.healthPoints = initialHealthStatus;
-    this.Weapon = defaultWeapon;
   }
 }
 let playerOne = new Player("playerOne");
@@ -91,10 +91,10 @@ function generatePlayersPosition(player) {
 function generateWeapons() {
   for (weapon of pickableWeapons) {
     let isOnMap = 0;
-    while (isOnMap < 1) {
+    while (isOnMap < 2) {
       let newWeapon = randomPositionOnMap();
       if (newWeapon.className === "mapSquare") {
-        newWeapon.classList.add(weapon.weaponName);
+        newWeapon.classList.add(weapon.weaponCssClass);
         isOnMap++;
       }
     }
@@ -122,107 +122,69 @@ function drawMapGrid(size) {
   generateWeapons();
 }
 
-drawMapGrid(10);
+drawMapGrid(12);
 let availableList = document.getElementsByClassName("availableSquare");
+
+// Stat box
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-function testCheck(vertical, horizontal) {
-  let newCheck = `${vertical}-${horizontal}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-  console.log(`1. calculated id: ${newCheck}`);
-  let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-  // console.log(`2. found an element with id ${newCheck}`);
-
-  if (newCheckId == null) {
-    console.log("border met");
-  } else if (newCheckId.classList.contains("dimmedSquare")) {
-    console.log("obstacle met");
-  } else {
-    newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-    console.log(`3. added "available" class to element with id ${newCheck}`);
-  }
-}
-
 //up
 function checkAvailableSquaresUp(player) {
-  console.log("checking: up");
-
   for (let i = 0; i < 4; i++) {
-    console.log(`repetition nr: ${i} `);
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
     x = player.positionArray()[0] - i;
 
-    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    // console.log(`2. found an element with id ${newCheck}`);
+    let newCheck = `${x}-${y}`;
+    let newCheckId = document.getElementById(`${newCheck}`);
 
     if (newCheckId == null) {
-      console.log("border met");
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      console.log("obstacle met");
       i = 4;
     } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
+      newCheckId.classList.add("availableSquare");
     }
   }
 }
 
 //down
 function checkAvailableSquaresDown(player) {
-  console.log("checking: up");
-
   for (let i = 0; i < 4; i++) {
-    console.log(`repetition nr: ${i} `);
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
     x = player.positionArray()[0] + i;
 
-    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    // console.log(`2. found an element with id ${newCheck}`);
+    let newCheck = `${x}-${y}`;
+    let newCheckId = document.getElementById(`${newCheck}`);
 
     if (newCheckId == null) {
-      console.log("border met");
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      console.log("obstacle met");
       i = 4;
     } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
+      newCheckId.classList.add("availableSquare");
     }
   }
 }
 
 //right
 function checkAvailableSquaresRight(player) {
-  console.log("checking: up");
-
   for (let i = 0; i < 4; i++) {
-    console.log(`repetition nr: ${i} `);
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
     y = player.positionArray()[1] + i;
 
-    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    // console.log(`2. found an element with id ${newCheck}`);
+    let newCheck = `${x}-${y}`;
+    let newCheckId = document.getElementById(`${newCheck}`);
 
     if (newCheckId == null) {
-      console.log("border met");
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      console.log("obstacle met");
       i = 4;
     } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
+      newCheckId.classList.add("availableSquare");
     }
   }
 }
@@ -241,28 +203,20 @@ function checkAvailableSquaresLeft() {
   }
 }
 function checkAvailableSquaresLeft(player) {
-  console.log("checking: up");
-
   for (let i = 0; i < 4; i++) {
-    console.log(`repetition nr: ${i} `);
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
     y = player.positionArray()[1] - i;
 
-    let newCheck = `${x}-${y}`; // 4.  Calculate coordinates of a box below playerOne and insert it into a string
-    console.log(`1. calculated id: ${newCheck}`);
-    let newCheckId = document.getElementById(`${newCheck}`); // 5. Find an element with calculated id
-    // console.log(`2. found an element with id ${newCheck}`);
+    let newCheck = `${x}-${y}`;
+    let newCheckId = document.getElementById(`${newCheck}`);
 
     if (newCheckId == null) {
-      console.log("border met");
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      console.log("obstacle met");
       i = 4;
     } else {
-      newCheckId.classList.add("availableSquare"); // 6. add available class to the first calculated element
-      console.log(`3. added "available" class to element with id ${newCheck}`);
+      newCheckId.classList.add("availableSquare");
     }
   }
 }
@@ -308,9 +262,9 @@ function movePlayer(player) {
     playerTwo.isActive = false;
     playerOne.isActive = true;
   }
-
+  document.getElementById("testP").innerHTML = "";
+  statboxFunction();
   checkAvailableSquares(activePlayer());
-  /*TODO: add function that changes active status*/
 }
 
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
@@ -326,3 +280,26 @@ body.addEventListener("click", event => {
     console.log("Clicked on a non accesible space");
   }
 });
+
+function statboxFunction() {
+  let paragraphHealth = document.createElement("p");
+  let health = document.createTextNode(`Health: ${playerOne.healthPoints}`);
+  paragraphHealth.appendChild(health);
+  document.getElementById("testP").appendChild(paragraphHealth);
+
+  let paragraphWeapon = document.createElement("p");
+  let weapon = document.createTextNode(
+    `Weapon: ${playerOne.Weapon.weaponCssClass}`
+  );
+  paragraphWeapon.appendChild(weapon);
+  document.getElementById("testP").appendChild(paragraphWeapon);
+
+  let paragraphDamage = document.createElement("p");
+  let damage = document.createTextNode(
+    `Damage: ${playerOne.Weapon.weaponDamage}`
+  );
+
+  paragraphDamage.appendChild(damage);
+  document.getElementById("testP").appendChild(paragraphDamage);
+}
+statboxFunction();

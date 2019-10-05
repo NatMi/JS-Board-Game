@@ -4,31 +4,45 @@
   margin: 0;
 }
 body {
-  display: flex;
   background-image: url(../assets/background.jpg);
   background-size: cover;
 }
-.main-container {
+.stats-window {
+  background-color: white;
+}
+#main-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
-h1 {
+#game-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#main-header {
   margin: 2rem 0rem;
+  font-family: "Cinzel Decorative";
+  text-align: center;
+}
+#main-header h1 {
   font-size: 2rem;
   color: rgb(42, 84, 133);
-  font-family: "Cinzel Decorative";
+}
+#main-header p {
+  color: rgb(26, 60, 99);
+}
+.stats-window {
+  background-color: #eefbff;
+  box-shadow: rgba(42, 85, 133, 0.466) 5px 7px 15px;
+  height: 50vh;
+  width: 50vh;
 }
 
 #mapGrid {
-  padding: 1rem 1rem;
   align-content: center;
-  justify-content: center;
   background-color: rgba(198, 225, 250, 0.253);
-}
-
-.container {
-  display: flex;
-  flex-flow: row wrap;
 }
 
 /*map*/
@@ -42,8 +56,8 @@ h1 {
 }
 
 .mapSquare {
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
   background-color: #eefbff;
   border: solid 1px #0e4b5a98;
 }
