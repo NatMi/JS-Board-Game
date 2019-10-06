@@ -132,10 +132,10 @@ let availableList = document.getElementsByClassName("availableSquare");
 
 //up
 function checkAvailableSquaresUp(player) {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
-    x = player.positionArray()[0] - i;
+    x = player.positionArray()[0] - (i + 1);
 
     let newCheck = `${x}-${y}`;
     let newCheckId = document.getElementById(`${newCheck}`);
@@ -144,6 +144,11 @@ function checkAvailableSquaresUp(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
+      alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
     }
@@ -152,10 +157,10 @@ function checkAvailableSquaresUp(player) {
 
 //down
 function checkAvailableSquaresDown(player) {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
-    x = player.positionArray()[0] + i;
+    x = player.positionArray()[0] + (i + 1);
 
     let newCheck = `${x}-${y}`;
     let newCheckId = document.getElementById(`${newCheck}`);
@@ -164,6 +169,11 @@ function checkAvailableSquaresDown(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
+      alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
     }
@@ -172,10 +182,10 @@ function checkAvailableSquaresDown(player) {
 
 //right
 function checkAvailableSquaresRight(player) {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
-    y = player.positionArray()[1] + i;
+    y = player.positionArray()[1] + (i + 1);
 
     let newCheck = `${x}-${y}`;
     let newCheckId = document.getElementById(`${newCheck}`);
@@ -184,6 +194,11 @@ function checkAvailableSquaresRight(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
+      alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
     }
@@ -191,23 +206,12 @@ function checkAvailableSquaresRight(player) {
 }
 
 //left
-function checkAvailableSquaresLeft() {
-  let positionArray = playerOne.positionArray();
-  let availableToCheck = 0;
-  let x = positionArray[0];
-  let y = positionArray[1];
 
-  while (availableToCheck < 3) {
-    availableToCheck++;
-    y = positionArray[1] - availableToCheck;
-    testCheck(x, y);
-  }
-}
 function checkAvailableSquaresLeft(player) {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
-    y = player.positionArray()[1] - i;
+    y = player.positionArray()[1] - (i + 1);
 
     let newCheck = `${x}-${y}`;
     let newCheckId = document.getElementById(`${newCheck}`);
@@ -216,6 +220,11 @@ function checkAvailableSquaresLeft(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
+      alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
     }
