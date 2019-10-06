@@ -38,7 +38,7 @@ class Player {
     this.isActive = false;
     this.position = null;
     this.healthPoints = initialHealthStatus;
-    this.Weapon = defaultWeapon;
+    this.Weapon = [defaultWeapon];
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
@@ -119,16 +119,93 @@ function drawMapGrid(size) {
   generateDimmedSquares();
   generatePlayersPosition(playerOne);
   playerOne.isActive = true;
+  checkAvailableSquares(playerOne);
   generatePlayersPosition(playerTwo);
   generateWeapons();
 }
 
 drawMapGrid(12);
+statboxFunction(playerOne);
+statboxFunction(playerTwo);
 let availableList = document.getElementsByClassName("availableSquare");
 
-// Stat box
+///////// statbox
+function statboxFunction(player) {
+  let paragraphHealth = document.createElement("p");
+  let health = document.createTextNode(`Health: ${player.healthPoints}`);
+  paragraphHealth.appendChild(health);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphHealth);
+
+  let paragraphWeapon = document.createElement("p");
+  let weapon = document.createTextNode(
+    `Weapon: ${player.Weapon[0].weaponCssClass}`
+  );
+  paragraphWeapon.appendChild(weapon);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphWeapon);
+
+  let paragraphDamage = document.createElement("p");
+  let damage = document.createTextNode(
+    `Damage: ${player.Weapon[0].weaponDamage}`
+  );
+
+  paragraphDamage.appendChild(damage);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphDamage);
+
+  let paragraphPosition = document.createElement("p");
+  let position = document.createTextNode(`Position: ${player.position.id}`);
+
+  paragraphPosition.appendChild(position);
+  document.getElementById(`${player.statboxId}`).appendChild(paragraphPosition);
+}
 
 ///////////////////////// MOVEMENT ///////////////////////////
+// function testCheck(player) {
+//   let x = player.positionArray()[0];
+//   let y = player.positionArray()[1];
+//   let i = 0;
+//   function checkCases(c, d) {
+//     while (i < 3) {
+//       let manipulateX = c;
+//       let manipulateY = d;
+//       let newCheck = `${manipulateX}-${manipulateY}`;
+
+//       let newCheckId = document.getElementById(`${newCheck}`);
+//       if (newCheckId == null) {
+//         i = 3;
+//       } else if (newCheckId.classList.contains("dimmedSquare")) {
+//         i = 3;
+//       } else if (
+//         newCheckId.classList.contains("playerOne") ||
+//         newCheckId.classList.contains("playerTwo")
+//       ) {
+//         alert("Fight!");
+//         i = 3;
+//       } else {
+//         newCheckId.classList.add("availableSquare");
+//         i++;
+//         console.log(i);
+//       }
+//     }
+//     i = 0;
+//   }
+//   //left
+//   leftCheckX = x - (i + 1);
+
+//   checkCases(leftCheckX, y);
+//   //right
+//   let rightCheckX = x + (i + 1);
+
+//   checkCases(rightCheckX, y);
+//   //top
+//   let topCheckY = y - (i + 1);
+//   checkCases(x, topCheckY);
+
+//   checkCases(x, topCheckY);
+//   // bottom
+//   let bottomCheckY = y + (i + 1);
+
+//   checkCases(x, bottomCheckY);
+// }
 
 //up
 function checkAvailableSquaresUp(player) {
@@ -141,9 +218,9 @@ function checkAvailableSquaresUp(player) {
     let newCheckId = document.getElementById(`${newCheck}`);
 
     if (newCheckId == null) {
-      i = 4;
+      i = 3;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
-      i = 4;
+      i = 3;
     } else if (
       newCheckId.classList.contains("playerOne") ||
       newCheckId.classList.contains("playerTwo")
@@ -239,8 +316,6 @@ function checkAvailableSquares(player) {
   checkAvailableSquaresLeft(player);
 }
 
-checkAvailableSquares(playerOne);
-
 ////////////////////
 
 function takePlayerAway(player) {
@@ -261,9 +336,15 @@ function movePlayer(player) {
 
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add(player.cssClass);
-
   player.position = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
+
+  if (chosenSquare.classList.contains("fish")) {
+    console.log(`grabbed fish!`);
+    chosenSquare.classList.add(`${player.Weapon[0].weaponCssClass}`);
+    player.Weapon = [fish];
+    chosenSquare.classList.remove("fish");
+  }
 
   if (activePlayer() == playerOne) {
     playerOne.isActive = false;
@@ -272,6 +353,7 @@ function movePlayer(player) {
     playerTwo.isActive = false;
     playerOne.isActive = true;
   }
+
   document.getElementById(`${player.statboxId}`).innerHTML = "";
   statboxFunction(player);
   checkAvailableSquares(activePlayer());
@@ -281,42 +363,9 @@ function movePlayer(player) {
 
 const body = document.querySelector("body");
 body.addEventListener("click", event => {
-  if (
-    event.target.classList.contains("mapSquare") &
-    event.target.classList.contains("availableSquare")
-  ) {
+  if (event.target.classList.contains("availableSquare")) {
     movePlayer(activePlayer());
   } else {
     console.log("Clicked on a non accesible space");
   }
 });
-
-// statbox
-
-function statboxFunction(player) {
-  let paragraphHealth = document.createElement("p");
-  let health = document.createTextNode(`Health: ${player.healthPoints}`);
-  paragraphHealth.appendChild(health);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphHealth);
-
-  let paragraphWeapon = document.createElement("p");
-  let weapon = document.createTextNode(
-    `Weapon: ${player.Weapon.weaponCssClass}`
-  );
-  paragraphWeapon.appendChild(weapon);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphWeapon);
-
-  let paragraphDamage = document.createElement("p");
-  let damage = document.createTextNode(`Damage: ${player.Weapon.weaponDamage}`);
-
-  paragraphDamage.appendChild(damage);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphDamage);
-
-  let paragraphPosition = document.createElement("p");
-  let position = document.createTextNode(`Position: ${player.position.id}`);
-
-  paragraphPosition.appendChild(position);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphPosition);
-}
-statboxFunction(playerOne);
-statboxFunction(playerTwo);

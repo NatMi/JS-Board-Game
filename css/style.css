@@ -85,11 +85,11 @@ body {
 
 /*weapons*/
 .snowball {
-  background-color: blue;
+  background-color: rgb(78, 150, 218);
 }
 
 .fish {
-  background-image: url(../assets/stone-0.png);
+  background-image: url(../assets/fish.png);
   background-size: 85%;
   background-repeat: no-repeat;
   background-position: center center;
@@ -101,7 +101,7 @@ body {
   background-position: center center;
 }
 .bigStone {
-  background-image: url(../assets/fish.png);
+  background-image: url(../assets/stone-0.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
