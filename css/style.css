@@ -74,13 +74,13 @@ body {
 
 /*players*/
 .playerOne {
-  background-image: url(../assets/player1.jpg);
-  background-size: cover;
+  background-image: url(../assets/player1.jpg) !important;
+  background-size: cover !important;
 }
 
 .playerTwo {
-  background-image: url(../assets/player2.jpg);
-  background-size: cover;
+  background-image: url(../assets/player2.jpg) !important;
+  background-size: cover !important;
 }
 
 /*weapons*/

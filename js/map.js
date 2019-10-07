@@ -9,20 +9,21 @@
     */
 
 //Weapons
-class Weapon {
-  constructor(weaponCssClass, weaponDamage) {
-    this.weaponCssClass = weaponCssClass;
-    this.weaponDamage = weaponDamage;
-  }
-}
 
-let snowball = new Weapon("snowball", 5);
-let fish = new Weapon("fish", 10);
-let smallStone = new Weapon("smallStone", 15);
-let bigStone = new Weapon("bigStone", 20);
+let weapons = [
+  { cssClass: "snowball", damage: 5 },
+  { cssClass: "fish", damage: 10 },
+  { cssClass: "smallStone", damage: 15 },
+  { cssClass: "bigStone", damage: 20 }
+];
 
-let pickableWeapons = [fish, smallStone, bigStone];
-let defaultWeapon = snowball;
+let pickableWeapons = weapons.filter(weapon => {
+  return weapon.damage > 5;
+});
+
+let defaultWeapon = weapons.find(weapon => {
+  return weapon.cssClass == "snowball";
+});
 
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
@@ -38,7 +39,7 @@ class Player {
     this.isActive = false;
     this.position = null;
     this.healthPoints = initialHealthStatus;
-    this.Weapon = [defaultWeapon];
+    this.Weapon = defaultWeapon;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
@@ -95,7 +96,7 @@ function generateWeapons() {
     while (isOnMap < 2) {
       let newWeapon = randomPositionOnMap();
       if (newWeapon.className === "mapSquare") {
-        newWeapon.classList.add(weapon.weaponCssClass);
+        newWeapon.classList.add(weapon.cssClass);
         isOnMap++;
       }
     }
@@ -137,16 +138,12 @@ function statboxFunction(player) {
   document.getElementById(`${player.statboxId}`).appendChild(paragraphHealth);
 
   let paragraphWeapon = document.createElement("p");
-  let weapon = document.createTextNode(
-    `Weapon: ${player.Weapon[0].weaponCssClass}`
-  );
+  let weapon = document.createTextNode(`Weapon: ${player.Weapon.cssClass}`);
   paragraphWeapon.appendChild(weapon);
   document.getElementById(`${player.statboxId}`).appendChild(paragraphWeapon);
 
   let paragraphDamage = document.createElement("p");
-  let damage = document.createTextNode(
-    `Damage: ${player.Weapon[0].weaponDamage}`
-  );
+  let damage = document.createTextNode(`Damage: ${player.Weapon.damage}`);
 
   paragraphDamage.appendChild(damage);
   document.getElementById(`${player.statboxId}`).appendChild(paragraphDamage);
@@ -338,12 +335,17 @@ function movePlayer(player) {
   chosenSquare.classList.add(player.cssClass);
   player.position = chosenSquare;
   console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
-
-  if (chosenSquare.classList.contains("fish")) {
-    console.log(`grabbed fish!`);
-    chosenSquare.classList.add(`${player.Weapon[0].weaponCssClass}`);
-    player.Weapon = [fish];
-    chosenSquare.classList.remove("fish");
+  // check if chosen square contains weapon
+  for (let i = 0; i < weapons.length; i++) {
+    if (chosenSquare.classList.contains(`${weapons[i].cssClass}`)) {
+      console.log(`grabbed ${weapon.cssClass}`);
+      chosenSquare.classList.add(`${player.Weapon.cssClass}`);
+      player.Weapon = weapons.find(item => {
+        return item.cssClass == weapons[i].cssClass;
+      });
+      chosenSquare.classList.remove(`${weapons[i].cssClass}`);
+      i = weapons.length;
+    }
   }
 
   if (activePlayer() == playerOne) {
