@@ -217,6 +217,7 @@ function checkAvailableSquaresUp(player) {
     if (newCheckId == null) {
       i = 3;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
+    if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
       i = 3;
     } else if (
       newCheckId.classList.contains("playerOne") ||
