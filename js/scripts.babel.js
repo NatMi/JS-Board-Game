@@ -1,26 +1,24 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*TODO:
- - add turns for players (player 2 is not moving on the map) - highlight active player - check which player is active
-    ... event : move player with isActive=true, then change it to false and turn anorher player's attribute to true?
- - pick up new weapon / leave old weapon in the spot of the old one
- - add initial position of the players to be restricted (start from the opposite parts of the grid)
- - work on dimmed fields (right now some places on grid are unaccessable, what if one of the players gets stuck?
- - refine the code (get rid of some repetitions)
-    
-    */
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
 //Weapons
+var weapons = [
+  { cssClass: "snowball", damage: 5 },
+  { cssClass: "fish", damage: 10 },
+  { cssClass: "smallStone", damage: 15 },
+  { cssClass: "bigStone", damage: 20 }
+];
 
-var weapons = [{ cssClass: "snowball", damage: 5 }, { cssClass: "fish", damage: 10 }, { cssClass: "smallStone", damage: 15 }, { cssClass: "bigStone", damage: 20 }];
-
-var pickableWeapons = weapons.filter(function (weapon) {
+var pickableWeapons = weapons.filter(function(weapon) {
   return weapon.damage > 5;
 });
 
-var defaultWeapon = weapons.find(function (weapon) {
+var defaultWeapon = weapons.find(function(weapon) {
   return weapon.cssClass == "snowball";
 });
 
@@ -43,7 +41,7 @@ var Player = function Player(cssClass, statboxId) {
   this.position = null;
   this.healthPoints = initialHealthStatus;
   this.Weapon = defaultWeapon;
-  this.positionArray = function () {
+  this.positionArray = function() {
     var currentId = _this.position.id.split("-");
     currentId[0] = parseInt(currentId[0]);
     currentId[1] = parseInt(currentId[1]);
@@ -99,8 +97,12 @@ function generateWeapons() {
   var _iteratorError = undefined;
 
   try {
-    for (var _iterator = pickableWeapons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      weapon = _step.value;
+    for (
+      var _iterator = pickableWeapons[Symbol.iterator](), _step;
+      !(_iteratorNormalCompletion = (_step = _iterator.next()).done);
+      _iteratorNormalCompletion = true
+    ) {
+      let weapon = _step.value;
 
       var isOnMap = 0;
       while (isOnMap < 2) {
@@ -240,7 +242,10 @@ function checkAvailableSquaresUp(player) {
 
     if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
       i = 3;
-    } else if (newCheckId.classList.contains("playerOne") || newCheckId.classList.contains("playerTwo")) {
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
       alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
@@ -262,7 +267,10 @@ function checkAvailableSquaresDown(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
-    } else if (newCheckId.classList.contains("playerOne") || newCheckId.classList.contains("playerTwo")) {
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
       alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
@@ -284,7 +292,10 @@ function checkAvailableSquaresRight(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
-    } else if (newCheckId.classList.contains("playerOne") || newCheckId.classList.contains("playerTwo")) {
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
       alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
@@ -307,7 +318,10 @@ function checkAvailableSquaresLeft(player) {
       i = 4;
     } else if (newCheckId.classList.contains("dimmedSquare")) {
       i = 4;
-    } else if (newCheckId.classList.contains("playerOne") || newCheckId.classList.contains("playerTwo")) {
+    } else if (
+      newCheckId.classList.contains("playerOne") ||
+      newCheckId.classList.contains("playerTwo")
+    ) {
       alert("Fight!");
     } else {
       newCheckId.classList.add("availableSquare");
@@ -344,14 +358,14 @@ function movePlayer(player) {
   var chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add(player.cssClass);
   player.position = chosenSquare;
-  console.log("Moved player to mapSquare with id \"" + chosenSquare.id + "\"");
+  console.log('Moved player to mapSquare with id "' + chosenSquare.id + '"');
   // check if chosen square contains weapon
 
   var _loop = function _loop(_i) {
     if (chosenSquare.classList.contains("" + weapons[_i].cssClass)) {
-      console.log("grabbed " + weapon.cssClass);
+      console.log("grabbed " + weapons[_i].cssClass);
       chosenSquare.classList.add("" + player.Weapon.cssClass);
-      player.Weapon = weapons.find(function (item) {
+      player.Weapon = weapons.find(function(item) {
         return item.cssClass == weapons[_i].cssClass;
       });
       chosenSquare.classList.remove("" + weapons[_i].cssClass);
@@ -380,7 +394,7 @@ function movePlayer(player) {
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
 var body = document.querySelector("body");
-body.addEventListener("click", function (event) {
+body.addEventListener("click", function(event) {
   if (event.target.classList.contains("availableSquare")) {
     movePlayer(activePlayer());
   } else {

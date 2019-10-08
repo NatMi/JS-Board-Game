@@ -1,15 +1,4 @@
-/*TODO:
- - add turns for players (player 2 is not moving on the map) - highlight active player - check which player is active
-    ... event : move player with isActive=true, then change it to false and turn anorher player's attribute to true?
- - pick up new weapon / leave old weapon in the spot of the old one
- - add initial position of the players to be restricted (start from the opposite parts of the grid)
- - work on dimmed fields (right now some places on grid are unaccessable, what if one of the players gets stuck?
- - refine the code (get rid of some repetitions)
-    
-    */
-
 //Weapons
-
 let weapons = [
   { cssClass: "snowball", damage: 5 },
   { cssClass: "fish", damage: 10 },
