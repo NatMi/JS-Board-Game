@@ -28,7 +28,7 @@ let defaultWeapon = weapons.find(weapon => {
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
 let mapContainer = document.getElementById("map-container");
-let initialHealthStatus = 100;
+const initialHealthStatus = 100;
 let dimmedSquareClass = "dimmedSquare";
 
 //Players
@@ -48,6 +48,7 @@ class Player {
     };
   }
 }
+
 let playerOne = new Player("playerOne", "statboxOne");
 let playerTwo = new Player("playerTwo", "statboxTwo");
 
@@ -214,9 +215,6 @@ function checkAvailableSquaresUp(player) {
     let newCheck = `${x}-${y}`;
     let newCheckId = document.getElementById(`${newCheck}`);
 
-    if (newCheckId == null) {
-      i = 3;
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
     if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
       i = 3;
     } else if (
