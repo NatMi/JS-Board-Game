@@ -1,0 +1,29 @@
+{
+  "name": "jsboardgame",
+  "version": "1.0.0",
+  "description": "JavaScript turn-based board game utilising DOM and event handling. Created by Natalia Mietus, meeting project specifications by OpenClassrooms.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NatMi/JS-Board-Game.git"
+  },
+  "keywords": [
+    "javascript",
+    "dom",
+    "event",
+    "handling",
+    "clash",
+    "of",
+    "the",
+    "penguins"
+  ],
+  "author": "Natalia Mietus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NatMi/JS-Board-Game/issues"
+  },
+  "homepage": "https://github.com/NatMi/JS-Board-Game#readme"
+}
