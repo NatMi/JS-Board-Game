@@ -27,8 +27,15 @@
   },
   "homepage": "https://github.com/NatMi/JS-Board-Game#readme",
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-uglify": "^3.0.2",
+    "jshint": "^2.10.2",
+    "run-sequence": "^2.2.1"
   }
 }

@@ -81,7 +81,7 @@ function generatePlayersPosition(player) {
 }
 
 function generateWeapons() {
-  for (weapon of pickableWeapons) {
+  for (let weapon of pickableWeapons) {
     let isOnMap = 0;
     while (isOnMap < 2) {
       let newWeapon = randomPositionOnMap();
@@ -227,7 +227,7 @@ function movePlayer(player) {
   // check if chosen square contains weapon
   for (let i = 0; i < weapons.length; i++) {
     if (chosenSquare.classList.contains(`${weapons[i].cssClass}`)) {
-      console.log(`grabbed ${weapon.cssClass}`);
+      console.log(`grabbed ${weapons[i].cssClass}`);
       chosenSquare.classList.add(`${player.Weapon.cssClass}`);
       player.Weapon = weapons.find(item => {
         return item.cssClass == weapons[i].cssClass;
