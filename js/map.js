@@ -147,56 +147,55 @@ function statboxFunction(player) {
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
-//vertical
-function checkAvailableSquaresVertical(player, index, factor) {
-  for (let i = 0; i < 3; i++) {
-    let x = player.positionArray()[0];
-    let y = player.positionArray()[1];
-    x = player.positionArray()[index] + (i + 1) * factor;
-
-    let newCheck = `${x}-${y}`;
-    let newCheckId = document.getElementById(`${newCheck}`);
-
-    if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
-      i = 3;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
-
-//horizontal
-function checkAvailableSquaresHorizontal(player, index, factor) {
-  for (let i = 0; i < 3; i++) {
-    let x = player.positionArray()[0];
-    let y = player.positionArray()[1];
-    y = player.positionArray()[index] + (i + 1) * factor;
-
-    let newCheck = `${x}-${y}`;
-    let newCheckId = document.getElementById(`${newCheck}`);
-
-    if (newCheckId == null) {
-      i = 4;
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      i = 4;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
-
 // checks availableSquares upon game start
 function checkAvailableSquares(player) {
+  let x = player.positionArray()[0];
+  let y = player.positionArray()[1];
+
+  //vertical
+  function checkAvailableSquaresVertical(player, index, factor) {
+    for (let i = 0; i < 3; i++) {
+      x = player.positionArray()[index] + (i + 1) * factor;
+      let newCheck = `${x}-${y}`;
+      let newCheckId = document.getElementById(`${newCheck}`);
+
+      if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
+        i = 3;
+      } else if (
+        newCheckId.classList.contains("playerOne") ||
+        newCheckId.classList.contains("playerTwo")
+      ) {
+        alert("Fight!");
+      } else {
+        newCheckId.classList.add("availableSquare");
+      }
+    }
+    x = player.positionArray()[0];
+  }
+
+  //horizontal
+  function checkAvailableSquaresHorizontal(player, index, factor) {
+    for (let i = 0; i < 3; i++) {
+      y = player.positionArray()[index] + (i + 1) * factor;
+
+      let newCheck = `${x}-${y}`;
+      let newCheckId = document.getElementById(`${newCheck}`);
+
+      if (newCheckId == null) {
+        i = 4;
+      } else if (newCheckId.classList.contains("dimmedSquare")) {
+        i = 4;
+      } else if (
+        newCheckId.classList.contains("playerOne") ||
+        newCheckId.classList.contains("playerTwo")
+      ) {
+        alert("Fight!");
+      } else {
+        newCheckId.classList.add("availableSquare");
+      }
+    }
+  }
+
   checkAvailableSquaresVertical(player, 0, -1); //up
   checkAvailableSquaresVertical(player, 0, 1); //down
   checkAvailableSquaresHorizontal(player, 1, -1); //left
