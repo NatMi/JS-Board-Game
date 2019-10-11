@@ -59,11 +59,11 @@ body {
   height: 45px;
   width: 45px;
   background-color: #eefbff;
-  border: solid 1px #0e4b5a98;
+  border: solid 1px rgb(67, 158, 163);
 }
 
 .availableSquare {
-  box-shadow: inset 0 0 10px #29ad64ef;
+  box-shadow: inset 0 0 10px #007e47;
 }
 
 .dimmedSquare {
