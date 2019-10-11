@@ -182,159 +182,60 @@ function statboxFunction(player) {
 }
 
 ///////////////////////// MOVEMENT ///////////////////////////
-// function testCheck(player) {
-//   let x = player.positionArray()[0];
-//   let y = player.positionArray()[1];
-//   let i = 0;
-//   function checkCases(c, d) {
-//     while (i < 3) {
-//       let manipulateX = c;
-//       let manipulateY = d;
-//       let newCheck = `${manipulateX}-${manipulateY}`;
-
-//       let newCheckId = document.getElementById(`${newCheck}`);
-//       if (newCheckId == null) {
-//         i = 3;
-//       } else if (newCheckId.classList.contains("dimmedSquare")) {
-//         i = 3;
-//       } else if (
-//         newCheckId.classList.contains("playerOne") ||
-//         newCheckId.classList.contains("playerTwo")
-//       ) {
-//         alert("Fight!");
-//         i = 3;
-//       } else {
-//         newCheckId.classList.add("availableSquare");
-//         i++;
-//         console.log(i);
-//       }
-//     }
-//     i = 0;
-//   }
-//   //left
-//   leftCheckX = x - (i + 1);
-
-//   checkCases(leftCheckX, y);
-//   //right
-//   let rightCheckX = x + (i + 1);
-
-//   checkCases(rightCheckX, y);
-//   //top
-//   let topCheckY = y - (i + 1);
-//   checkCases(x, topCheckY);
-
-//   checkCases(x, topCheckY);
-//   // bottom
-//   let bottomCheckY = y + (i + 1);
-
-//   checkCases(x, bottomCheckY);
-// }
-
-//up
-function checkAvailableSquaresUp(player) {
-  for (var i = 0; i < 3; i++) {
-    var x = player.positionArray()[0];
-    var y = player.positionArray()[1];
-    x = player.positionArray()[0] - (i + 1);
-
-    var newCheck = x + "-" + y;
-    var newCheckId = document.getElementById("" + newCheck);
-
-    if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
-      i = 3;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
-
-//down
-function checkAvailableSquaresDown(player) {
-  for (var i = 0; i < 3; i++) {
-    var x = player.positionArray()[0];
-    var y = player.positionArray()[1];
-    x = player.positionArray()[0] + (i + 1);
-
-    var newCheck = x + "-" + y;
-    var newCheckId = document.getElementById("" + newCheck);
-
-    if (newCheckId == null) {
-      i = 4;
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      i = 4;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
-
-//right
-function checkAvailableSquaresRight(player) {
-  for (var i = 0; i < 3; i++) {
-    var x = player.positionArray()[0];
-    var y = player.positionArray()[1];
-    y = player.positionArray()[1] + (i + 1);
-
-    var newCheck = x + "-" + y;
-    var newCheckId = document.getElementById("" + newCheck);
-
-    if (newCheckId == null) {
-      i = 4;
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      i = 4;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
-
-//left
-
-function checkAvailableSquaresLeft(player) {
-  for (var i = 0; i < 3; i++) {
-    var x = player.positionArray()[0];
-    var y = player.positionArray()[1];
-    y = player.positionArray()[1] - (i + 1);
-
-    var newCheck = x + "-" + y;
-    var newCheckId = document.getElementById("" + newCheck);
-
-    if (newCheckId == null) {
-      i = 4;
-    } else if (newCheckId.classList.contains("dimmedSquare")) {
-      i = 4;
-    } else if (
-      newCheckId.classList.contains("playerOne") ||
-      newCheckId.classList.contains("playerTwo")
-    ) {
-      alert("Fight!");
-    } else {
-      newCheckId.classList.add("availableSquare");
-    }
-  }
-}
 
 // checks availableSquares upon game start
 function checkAvailableSquares(player) {
-  checkAvailableSquaresUp(player);
-  checkAvailableSquaresDown(player);
-  checkAvailableSquaresRight(player);
-  checkAvailableSquaresLeft(player);
+  var x = player.positionArray()[0];
+  var y = player.positionArray()[1];
+
+  //vertical
+  function checkAvailableSquaresVertical(player, index, factor) {
+    for (var i = 0; i < 3; i++) {
+      x = player.positionArray()[index] + (i + 1) * factor;
+      var newCheck = x + "-" + y;
+      var newCheckId = document.getElementById("" + newCheck);
+
+      if (newCheckId == null || newCheckId.classList.contains("dimmedSquare")) {
+        i = 3;
+      } else if (
+        newCheckId.classList.contains("playerOne") ||
+        newCheckId.classList.contains("playerTwo")
+      ) {
+        alert("Fight!");
+      } else {
+        newCheckId.classList.add("availableSquare");
+      }
+    }
+    x = player.positionArray()[0];
+  }
+
+  //horizontal
+  function checkAvailableSquaresHorizontal(player, index, factor) {
+    for (var i = 0; i < 3; i++) {
+      y = player.positionArray()[index] + (i + 1) * factor;
+
+      var newCheck = x + "-" + y;
+      var newCheckId = document.getElementById("" + newCheck);
+
+      if (newCheckId == null) {
+        i = 4;
+      } else if (newCheckId.classList.contains("dimmedSquare")) {
+        i = 4;
+      } else if (
+        newCheckId.classList.contains("playerOne") ||
+        newCheckId.classList.contains("playerTwo")
+      ) {
+        alert("Fight!");
+      } else {
+        newCheckId.classList.add("availableSquare");
+      }
+    }
+  }
+
+  checkAvailableSquaresVertical(player, 0, -1); //up
+  checkAvailableSquaresVertical(player, 0, 1); //down
+  checkAvailableSquaresHorizontal(player, 1, -1); //left
+  checkAvailableSquaresHorizontal(player, 1, 1); //right
 }
 
 ////////////////////
