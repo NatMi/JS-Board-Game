@@ -68,6 +68,7 @@ function generateDimmedSquares() {
     }
   }
 }
+
 function generatePlayersPosition(player) {
   let isOnMap = 0;
   while (isOnMap < 1) {
@@ -171,7 +172,7 @@ function checkAvailableSquares(player) {
         newCheckId.classList.contains("playerOne") ||
         newCheckId.classList.contains("playerTwo")
       ) {
-        alert("Fight!");
+        fightMode();
       } else {
         newCheckId.classList.add("availableSquare");
       }
@@ -205,7 +206,6 @@ function movePlayer(player) {
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add(player.cssClass);
   player.position = chosenSquare;
-  console.log(`Moved player to mapSquare with id "${chosenSquare.id}"`);
   // check if chosen square contains weapon
   for (let i = 0; i < weapons.length; i++) {
     if (chosenSquare.classList.contains(`${weapons[i].cssClass}`)) {
@@ -231,7 +231,10 @@ function movePlayer(player) {
   statboxFunction(player);
   checkAvailableSquares(activePlayer());
 }
-
+/////////////////// FIGHT MODE /////////////////////////////////////
+function fightMode() {
+  mapGrid.classList.add("disabled");
+}
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
 const body = document.querySelector("body");
