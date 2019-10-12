@@ -165,14 +165,21 @@ function checkAvailableSquares(player) {
       let newCheckId = document.getElementById(`${newCheck}`);
 
       if (newCheckId == null) {
-        i = 4;
-      } else if (newCheckId.classList.contains("dimmedSquare")) {
-        i = 4;
+        break;
+      } else if (
+        i == 0 &&
+        (newCheckId.classList.contains("playerOne") ||
+          newCheckId.classList.contains("playerTwo"))
+      ) {
+        fightMode();
+        break;
       } else if (
         newCheckId.classList.contains("playerOne") ||
         newCheckId.classList.contains("playerTwo")
       ) {
-        fightMode();
+        break;
+      } else if (newCheckId.classList.contains("dimmedSquare")) {
+        break;
       } else {
         newCheckId.classList.add("availableSquare");
       }
