@@ -29,6 +29,7 @@ class Player {
     this.position = null;
     this.healthPoints = initialHealthStatus;
     this.Weapon = defaultWeapon;
+    this.defence = 1;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
