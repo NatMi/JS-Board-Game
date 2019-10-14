@@ -280,6 +280,9 @@ function attackPlayer() {
     playerOne.isActive = true;
   }
 
+  if (playerOne.healthPoints <= 0 || playerTwo.healthPoints <= 0) {
+    alert("game over!");
+  }
 }
 }
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
