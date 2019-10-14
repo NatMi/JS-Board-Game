@@ -284,6 +284,27 @@ function attackPlayer() {
     alert("game over!");
   }
 }
+
+function defendPlayer() {
+  if (activePlayer() == playerOne) {
+    playerOne.defence = 0.5;
+
+    let btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "block";
+    playerOne.isActive = false;
+    playerTwo.isActive = true;
+  } else if (activePlayer() == playerTwo) {
+    playerTwo.defence = 0.5;
+
+    let btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "block";
+    playerTwo.isActive = false;
+    playerOne.isActive = true;
+  }
 }
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
@@ -293,5 +314,7 @@ body.addEventListener("click", event => {
     movePlayer(activePlayer());
   } else if (event.target.classList.contains("attackBtn")) {
     attackPlayer();
+  } else if (event.target.classList.contains("defendBtn")) {
+    defendPlayer();
   }
 });
