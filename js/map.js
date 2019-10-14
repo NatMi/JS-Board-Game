@@ -250,6 +250,36 @@ function fightMode() {
   }
   btn.style.display = "block";
 }
+function attackPlayer() {
+  if (activePlayer() == playerOne) {
+    playerTwo.healthPoints =
+      playerTwo.healthPoints - playerOne.Weapon.damage * playerTwo.defence;
+    document.getElementById(`${playerTwo.statboxId}`).innerHTML = "";
+    statboxFunction(playerTwo);
+    playerTwo.defence = 1;
+
+    let btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "block";
+    playerOne.isActive = false;
+    playerTwo.isActive = true;
+  } else if (activePlayer() == playerTwo) {
+    playerOne.healthPoints =
+      playerOne.healthPoints - playerTwo.Weapon.damage * playerOne.defence;
+    document.getElementById(`${playerOne.statboxId}`).innerHTML = "";
+    statboxFunction(playerOne);
+    playerOne.defence = 1;
+
+    let btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "block";
+    playerTwo.isActive = false;
+    playerOne.isActive = true;
+  }
+
+}
 }
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
@@ -257,7 +287,7 @@ const body = document.querySelector("body");
 body.addEventListener("click", event => {
   if (event.target.classList.contains("availableSquare")) {
     movePlayer(activePlayer());
-  } else {
-    console.log("Clicked on a non accesible space");
+  } else if (event.target.classList.contains("attackBtn")) {
+    attackPlayer();
   }
 });
