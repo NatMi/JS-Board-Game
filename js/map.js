@@ -241,6 +241,15 @@ function movePlayer(player) {
 /////////////////// FIGHT MODE /////////////////////////////////////
 function fightMode() {
   mapGrid.classList.add("disabled");
+
+  let btn = "";
+  if (activePlayer() == playerOne) {
+    btn = document.getElementsByClassName("btnBox")[0];
+  } else if (activePlayer() == playerTwo) {
+    btn = document.getElementsByClassName("btnBox")[1];
+  }
+  btn.style.display = "block";
+}
 }
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
