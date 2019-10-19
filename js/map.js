@@ -121,6 +121,8 @@ function drawMapGrid(size) {
   generateDimmedSquares();
   generatePlayersPosition(playerOne);
   generatePlayersPosition(playerTwo);
+  playerOne.isActive = true;
+  checkAvailableSquares(activePlayer());
   generateWeapons();
 }
 
@@ -164,9 +166,9 @@ function checkAvailableSquares(player) {
 
     for (let i = 0; i < 3; i++) {
       if (index === 1) {
-        y = player.positionArray()[index] + (i + 1) * factor;
+        y = player.positionArray()[index] + (i + 1) * multiplier;
       } else if (index === 0) {
-        x = player.positionArray()[index] + (i + 1) * factor;
+        x = player.positionArray()[index] + (i + 1) * multiplier;
       }
 
       let newCheck = `${x}-${y}`;
