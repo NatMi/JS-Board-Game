@@ -120,8 +120,6 @@ function drawMapGrid(size) {
 
   generateDimmedSquares();
   generatePlayersPosition(playerOne);
-  playerOne.isActive = true;
-  checkAvailableSquares(playerOne);
   generatePlayersPosition(playerTwo);
   generateWeapons();
 }
