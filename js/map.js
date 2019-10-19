@@ -17,7 +17,6 @@ let defaultWeapon = weapons.find(weapon => {
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
 let mapContainer = document.getElementById("map-container");
-const initialHealthStatus = 100;
 let dimmedSquareClass = "dimmedSquare";
 
 //Players
@@ -49,6 +48,16 @@ let activePlayer = () => {
     return playerTwo;
   }
 };
+
+function toggleIsActive() {
+  if (activePlayer() == playerOne) {
+    playerOne.isActive = false;
+    playerTwo.isActive = true;
+  } else if (activePlayer() == playerTwo) {
+    playerTwo.isActive = false;
+    playerOne.isActive = true;
+  }
+}
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 
@@ -151,7 +160,7 @@ function statboxFunction(player) {
 
 // checks availableSquares upon game start
 function checkAvailableSquares(player) {
-  function check(player, index, factor) {
+  function check(player, index, multiplier) {
     let x = player.positionArray()[0];
     let y = player.positionArray()[1];
 
@@ -227,13 +236,7 @@ function movePlayer(player) {
     }
   }
 
-  if (activePlayer() == playerOne) {
-    playerOne.isActive = false;
-    playerTwo.isActive = true;
-  } else if (activePlayer() == playerTwo) {
-    playerTwo.isActive = false;
-    playerOne.isActive = true;
-  }
+  toggleIsActive();
 
   document.getElementById(`${player.statboxId}`).innerHTML = "";
   statboxFunction(player);
@@ -263,8 +266,8 @@ function attackPlayer() {
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "block";
-    playerOne.isActive = false;
-    playerTwo.isActive = true;
+
+    toggleIsActive();
   } else if (activePlayer() == playerTwo) {
     playerOne.healthPoints =
       playerOne.healthPoints - playerTwo.Weapon.damage * playerOne.defence;
@@ -276,8 +279,7 @@ function attackPlayer() {
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "block";
-    playerTwo.isActive = false;
-    playerOne.isActive = true;
+    toggleIsActive();
   }
 
   if (playerOne.healthPoints <= 0 || playerTwo.healthPoints <= 0) {
@@ -293,8 +295,7 @@ function defendPlayer() {
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "block";
-    playerOne.isActive = false;
-    playerTwo.isActive = true;
+    toggleIsActive();
   } else if (activePlayer() == playerTwo) {
     playerTwo.defence = 0.5;
 
@@ -302,8 +303,7 @@ function defendPlayer() {
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "block";
-    playerTwo.isActive = false;
-    playerOne.isActive = true;
+    toggleIsActive();
   }
 }
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
