@@ -26,9 +26,9 @@ class Player {
     this.statboxId = statboxId;
     this.isActive = false;
     this.position = null;
-    this.healthPoints = initialHealthStatus;
+    this.healthPoints = 100;
     this.Weapon = defaultWeapon;
-    this.defence = 1;
+    this.defenceMultiplier = 1;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
@@ -257,10 +257,11 @@ function fightMode() {
 function attackPlayer() {
   if (activePlayer() == playerOne) {
     playerTwo.healthPoints =
-      playerTwo.healthPoints - playerOne.Weapon.damage * playerTwo.defence;
+      playerTwo.healthPoints -
+      playerOne.Weapon.damage * playerTwo.defenceMultiplier;
     document.getElementById(`${playerTwo.statboxId}`).innerHTML = "";
     statboxFunction(playerTwo);
-    playerTwo.defence = 1;
+    playerTwo.defenceMultiplier = 1;
 
     let btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "none";
@@ -270,10 +271,11 @@ function attackPlayer() {
     toggleIsActive();
   } else if (activePlayer() == playerTwo) {
     playerOne.healthPoints =
-      playerOne.healthPoints - playerTwo.Weapon.damage * playerOne.defence;
+      playerOne.healthPoints -
+      playerTwo.Weapon.damage * playerOne.defenceMultiplier;
     document.getElementById(`${playerOne.statboxId}`).innerHTML = "";
     statboxFunction(playerOne);
-    playerOne.defence = 1;
+    playerOne.defenceMultiplier = 1;
 
     let btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "none";
@@ -289,7 +291,7 @@ function attackPlayer() {
 
 function defendPlayer() {
   if (activePlayer() == playerOne) {
-    playerOne.defence = 0.5;
+    playerOne.defenceMultiplier = 0.5;
 
     let btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "none";
@@ -297,7 +299,7 @@ function defendPlayer() {
     btn.style.display = "block";
     toggleIsActive();
   } else if (activePlayer() == playerTwo) {
-    playerTwo.defence = 0.5;
+    playerTwo.defenceMultiplier = 0.5;
 
     let btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "none";
