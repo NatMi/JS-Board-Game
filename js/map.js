@@ -1,23 +1,38 @@
-//Weapons
-let weapons = [
-  { cssClass: "snowball", damage: 5 },
-  { cssClass: "fish", damage: 10 },
-  { cssClass: "smallStone", damage: 15 },
-  { cssClass: "bigStone", damage: 20 }
-];
-
-let pickableWeapons = weapons.filter(weapon => {
-  return weapon.damage > 5;
-});
-
-let defaultWeapon = weapons.find(weapon => {
-  return weapon.cssClass == "snowball";
-});
-
 //generic variables
 let allMapSquares = document.getElementsByClassName("mapSquare");
 let mapContainer = document.getElementById("map-container");
 let dimmedSquareClass = "dimmedSquare";
+//Weapons object
+let weapons = {
+  allItems: [
+    { cssClass: "snowball", damage: 5 },
+    { cssClass: "fish", damage: 10 },
+    { cssClass: "smallStone", damage: 15 },
+    { cssClass: "bigStone", damage: 20 }
+  ],
+  pickable: () => {
+    let filteredItems = weapons.allItems.filter(item => {
+      return item.damage > 5;
+    });
+    return filteredItems;
+  },
+  default: () => {
+    let chosenDefault = weapons.allItems[0];
+    return chosenDefault;
+  },
+  generateOnMap: () => {
+    for (let weapon of weapons.pickable()) {
+      let isOnMap = 0;
+      while (isOnMap < 2) {
+        let newWeapon = map.randomPosition();
+        if (newWeapon.className === "mapSquare") {
+          newWeapon.classList.add(weapon.cssClass);
+          isOnMap++;
+        }
+      }
+    }
+  }
+};
 
 //Players
 class Player {
@@ -27,7 +42,7 @@ class Player {
     this.isActive = false;
     this.position = null;
     this.healthPoints = 100;
-    this.Weapon = defaultWeapon;
+    this.Weapon = weapons.default();
     this.defenceMultiplier = 1;
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
@@ -200,7 +215,7 @@ function drawMapGrid(size) {
   generatePlayersPosition(playerTwo);
   playerOne.isActive = true;
   checkAvailableSquares(activePlayer());
-  generateWeapons();
+  weapons.generateOnMap();
 }
 
 drawMapGrid(12);
@@ -276,15 +291,15 @@ function movePlayer(player) {
   chosenSquare.classList.add(player.cssClass);
   player.position = chosenSquare;
   // check if chosen square contains weapon
-  for (let i = 0; i < weapons.length; i++) {
-    if (chosenSquare.classList.contains(`${weapons[i].cssClass}`)) {
-      console.log(`grabbed ${weapons[i].cssClass}`);
+  for (let i = 0; i < weapons.allItems.length; i++) {
+    if (chosenSquare.classList.contains(`${weapons.allItems[i].cssClass}`)) {
+      console.log(`grabbed ${weapons.allItems[i].cssClass}`);
       chosenSquare.classList.add(`${player.Weapon.cssClass}`);
-      player.Weapon = weapons.find(item => {
-        return item.cssClass == weapons[i].cssClass;
+      player.Weapon = weapons.allItems.find(item => {
+        return item.cssClass == weapons.allItems[i].cssClass;
       });
-      chosenSquare.classList.remove(`${weapons[i].cssClass}`);
-      i = weapons.length;
+      chosenSquare.classList.remove(`${weapons.allItems[i].cssClass}`);
+      i = weapons.allItems.length;
     }
   }
 
