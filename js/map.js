@@ -156,6 +156,10 @@ let map = {
 let game = {
   playerOne: new Player("playerOne", "statboxOne"),
   playerTwo: new Player("playerTwo", "statboxTwo"),
+  fightMode: () => {
+    mapGrid.classList.add("disabled");
+    game.btnBox().style.display = "block";
+  },
 
   activePlayer: () => {
     if (game.playerOne.isActive == true) {
@@ -211,8 +215,6 @@ let game = {
 };
 
 ///////////////////////// MOVEMENT ///////////////////////////
-
-// checks availableSquares upon game start
 function checkAvailableSquares(player) {
   function check(player, index, multiplier) {
     let x = player.positionArray()[0];
@@ -235,7 +237,7 @@ function checkAvailableSquares(player) {
         (newCheckId.classList.contains("playerOne") ||
           newCheckId.classList.contains("playerTwo"))
       ) {
-        fightMode();
+        game.fightMode();
         break;
       } else if (
         newCheckId.classList.contains("playerOne") ||
@@ -256,8 +258,6 @@ function checkAvailableSquares(player) {
   check(player, 1, 1); //right
 }
 
-////////////////////
-
 function takePlayerAway(player) {
   document.getElementById(player.position.id).classList.remove(player.cssClass);
 }
@@ -271,7 +271,6 @@ function clearAccessible() {
 }
 
 // movePlayer
-
 function movePlayer(player) {
   clearAccessible();
   takePlayerAway(player);
@@ -296,14 +295,8 @@ function movePlayer(player) {
   player.createStatbox();
   checkAvailableSquares(game.activePlayer());
 }
-/////////////////// FIGHT MODE /////////////////////////////////////
-function fightMode() {
-  mapGrid.classList.add("disabled");
-  game.btnBox().style.display = "block";
-}
 
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
-
 const body = document.querySelector("body");
 body.addEventListener("click", event => {
   if (event.target.id == "newGameBtn") {
