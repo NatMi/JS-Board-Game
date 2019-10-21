@@ -29,7 +29,8 @@ let weapons = {
     }
   }
 };
-//Players
+
+//////////////////////////   PLAYER   /////////////////////////////////
 class Player {
   constructor(cssClass, statboxId) {
     this.cssClass = cssClass;
@@ -39,10 +40,10 @@ class Player {
     this.healthPoints = 100;
     this.Weapon = weapons.default();
     this.defenceMultiplier = 1;
-    this.generatePosition = () => {
+    this.generatePosition = collectionName => {
       let isOnMap = 0;
       while (isOnMap < 1) {
-        let newPlayer = map.randomPosition();
+        let newPlayer = map.randomPosition(collectionName);
         if (newPlayer.className === "mapSquare") {
           newPlayer.classList.add(this.cssClass);
           isOnMap++;
@@ -81,6 +82,7 @@ class Player {
     this.createStatbox = () => {
       document.getElementById(`${this.statboxId}`).innerHTML = ""; // 1. removes statbox content if there is any
       // 2. creates updated statbox content
+      document.getElementById(`${this.statboxId}`).innerHTML = "";
       let paragraphHealth = document.createElement("p");
       let health = document.createTextNode(`Health: ${this.healthPoints}`);
       paragraphHealth.appendChild(health);
