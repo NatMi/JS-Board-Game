@@ -58,11 +58,11 @@ class Player {
       return currentId;
     };
     this.attack = () => {
-      notActivePlayer().healthPoints =
-        notActivePlayer().healthPoints -
-        this.Weapon.damage * notActivePlayer().defenceMultiplier;
-      notActivePlayer().createStatbox();
-      notActivePlayer().defenceMultiplier = 1;
+      game.inactivePlayer().healthPoints =
+        game.inactivePlayer().healthPoints -
+        this.Weapon.damage * game.inactivePlayer().defenceMultiplier;
+      game.inactivePlayer().createStatbox();
+      game.inactivePlayer().defenceMultiplier = 1;
 
       toggleBtnBox();
       toggleIsActive();
@@ -109,39 +109,41 @@ class Player {
 let playerOne = new Player("playerOne", "statboxOne");
 let playerTwo = new Player("playerTwo", "statboxTwo");
 
-let activePlayer = () => {
-  if (playerOne.isActive == true) {
-    return playerOne;
-  } else if (playerTwo.isActive == true) {
-    return playerTwo;
-  }
-};
-
-let notActivePlayer = () => {
-  if (playerOne.isActive == false) {
-    return playerOne;
-  } else if (playerTwo.isActive == false) {
-    return playerTwo;
+let game = {
+  activePlayer: () => {
+    if (playerOne.isActive == true) {
+      return playerOne;
+    } else if (playerTwo.isActive == true) {
+      return playerTwo;
+    }
+  },
+  inactivePlayer: () => {
+    if (playerOne.isActive == false) {
+      return playerOne;
+    } else if (playerTwo.isActive == false) {
+      return playerTwo;
+    }
   }
 };
 
 function toggleIsActive() {
-  if (activePlayer() == playerOne) {
+  if (game.activePlayer() == playerOne) {
     playerOne.isActive = false;
     playerTwo.isActive = true;
-  } else if (activePlayer() == playerTwo) {
+  } else if (game.activePlayer() == playerTwo) {
     playerTwo.isActive = false;
     playerOne.isActive = true;
   }
 }
 function toggleBtnBox() {
-  if (activePlayer() == playerOne) {
-    let btn = document.getElementsByClassName("btnBox")[0];
+  let btn = "";
+  if (game.activePlayer() == playerOne) {
+    btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "block";
-  } else if (activePlayer() == playerTwo) {
-    let btn = document.getElementsByClassName("btnBox")[1];
+  } else if (game.activePlayer() == playerTwo) {
+    btn = document.getElementsByClassName("btnBox")[1];
     btn.style.display = "none";
     btn = document.getElementsByClassName("btnBox")[0];
     btn.style.display = "block";
@@ -184,18 +186,21 @@ let map = {
   }
 };
 ///////////////////////////////////// Draw map grid //////////////////////////////////
+function newGame() {
+  mapGrid.innerHTML = "";
+  mapGrid.classList.remove("disabled");
+  map.drawMapGrid(12);
 
   map.generateDimmedSquares();
   playerOne.generatePosition();
   playerTwo.generatePosition();
   playerOne.isActive = true;
-  checkAvailableSquares(activePlayer());
+  checkAvailableSquares(game.activePlayer());
   weapons.generateOnMap();
-}
 
-drawMapGrid(12);
-playerOne.createStatbox();
-playerTwo.createStatbox();
+  playerOne.createStatbox();
+  playerTwo.createStatbox();
+}
 let availableList = document.getElementsByClassName("availableSquare");
 
 ///////////////////////// MOVEMENT ///////////////////////////
@@ -280,29 +285,32 @@ function movePlayer(player) {
 
   toggleIsActive();
   player.createStatbox();
-  checkAvailableSquares(activePlayer());
+  checkAvailableSquares(game.activePlayer());
 }
 /////////////////// FIGHT MODE /////////////////////////////////////
 function fightMode() {
   mapGrid.classList.add("disabled");
 
   let btn = "";
-  if (activePlayer() == playerOne) {
+  if (game.activePlayer() == playerOne) {
     btn = document.getElementsByClassName("btnBox")[0];
-  } else if (activePlayer() == playerTwo) {
+  } else if (game.activePlayer() == playerTwo) {
     btn = document.getElementsByClassName("btnBox")[1];
   }
   btn.style.display = "block";
 }
+
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
 const body = document.querySelector("body");
 body.addEventListener("click", event => {
-  if (event.target.classList.contains("availableSquare")) {
-    movePlayer(activePlayer());
+  if (event.target.id == "newGame") {
+    newGame();
+  } else if (event.target.classList.contains("availableSquare")) {
+    movePlayer(game.activePlayer());
   } else if (event.target.classList.contains("attackBtn")) {
-    activePlayer().attack();
+    game.activePlayer().attack();
   } else if (event.target.classList.contains("defendBtn")) {
-    activePlayer().defend();
+    game.activePlayer().defend();
   }
 });
