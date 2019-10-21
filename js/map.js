@@ -29,7 +29,6 @@ let weapons = {
     }
   }
 };
-
 //Players
 class Player {
   constructor(cssClass, statboxId) {
@@ -64,15 +63,18 @@ class Player {
       game.inactivePlayer().createStatbox();
       game.inactivePlayer().defenceMultiplier = 1;
 
-      toggleBtnBox();
+      game.toggleBtnBox();
       game.toggleIsActive();
-      if (playerOne.healthPoints <= 0 || playerTwo.healthPoints <= 0) {
+      if (
+        game.playerOne.healthPoints <= 0 ||
+        game.playerTwo.healthPoints <= 0
+      ) {
         alert("game over!");
       }
     };
     this.defend = () => {
       this.defenceMultiplier = 0.5;
-      toggleBtnBox();
+      game.toggleBtnBox();
       game.toggleIsActive();
     };
 
@@ -106,58 +108,62 @@ class Player {
   }
 }
 
-let playerOne = new Player("playerOne", "statboxOne");
-let playerTwo = new Player("playerTwo", "statboxTwo");
-
 let game = {
+  playerOne: new Player("playerOne", "statboxOne"),
+  playerTwo: new Player("playerTwo", "statboxTwo"),
+
   activePlayer: () => {
-    if (playerOne.isActive == true) {
-      return playerOne;
-    } else if (playerTwo.isActive == true) {
-      return playerTwo;
+    if (game.playerOne.isActive == true) {
+      return game.playerOne;
+    } else if (game.playerTwo.isActive == true) {
+      return game.playerTwo;
     }
   },
   inactivePlayer: () => {
-    if (playerOne.isActive == false) {
-      return playerOne;
-    } else if (playerTwo.isActive == false) {
-      return playerTwo;
+    if (game.playerOne.isActive == false) {
+      return game.playerOne;
+    } else if (game.playerTwo.isActive == false) {
+      return game.playerTwo;
     }
   },
+  toggleIsActive: () => {
+    if (game.activePlayer() == game.playerOne) {
+      game.playerOne.isActive = false;
+      game.playerTwo.isActive = true;
+    } else if (game.activePlayer() == game.playerTwo) {
+      game.playerTwo.isActive = false;
+      game.playerOne.isActive = true;
+    }
+  },
+  availableSquares: () => {
+    let availables = document.getElementsByClassName("availableSquare");
+    return availables;
+  },
+
   btnBox: () => {
     let btn = "";
-    if (game.activePlayer() == playerOne) {
+    if (game.activePlayer() == game.playerOne) {
       btn = document.getElementsByClassName("btnBox")[0];
-    } else if (game.activePlayer() == playerTwo) {
+    } else if (game.activePlayer() == game.playerTwo) {
       btn = document.getElementsByClassName("btnBox")[1];
     }
     return btn;
   },
-  toggleIsActive: () => {
-    if (game.activePlayer() == playerOne) {
-      playerOne.isActive = false;
-      playerTwo.isActive = true;
-    } else if (game.activePlayer() == playerTwo) {
-      playerTwo.isActive = false;
-      playerOne.isActive = true;
+  toggleBtnBox: () => {
+    let btn = "";
+    if (game.activePlayer() == game.playerOne) {
+      btn = document.getElementsByClassName("btnBox")[0];
+      btn.style.display = "none";
+      btn = document.getElementsByClassName("btnBox")[1];
+      btn.style.display = "block";
+    } else if (game.activePlayer() == game.playerTwo) {
+      btn = document.getElementsByClassName("btnBox")[1];
+      btn.style.display = "none";
+      btn = document.getElementsByClassName("btnBox")[0];
+      btn.style.display = "block";
     }
   }
 };
-
-function toggleBtnBox() {
-  let btn = "";
-  if (game.activePlayer() == playerOne) {
-    btn = document.getElementsByClassName("btnBox")[0];
-    btn.style.display = "none";
-    btn = document.getElementsByClassName("btnBox")[1];
-    btn.style.display = "block";
-  } else if (game.activePlayer() == playerTwo) {
-    btn = document.getElementsByClassName("btnBox")[1];
-    btn.style.display = "none";
-    btn = document.getElementsByClassName("btnBox")[0];
-    btn.style.display = "block";
-  }
-}
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 let map = {
@@ -201,16 +207,16 @@ function newGame() {
   map.drawMapGrid(12);
 
   map.generateDimmedSquares();
-  playerOne.generatePosition();
-  playerTwo.generatePosition();
-  playerOne.isActive = true;
+  game.playerOne.generatePosition();
+  game.playerTwo.generatePosition();
+  game.playerOne.isActive = true;
   checkAvailableSquares(game.activePlayer());
+  game.btnBox().style.display = "none";
   weapons.generateOnMap();
 
-  playerOne.createStatbox();
-  playerTwo.createStatbox();
+  game.playerOne.createStatbox();
+  game.playerTwo.createStatbox();
 }
-let availableList = document.getElementsByClassName("availableSquare");
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
@@ -265,8 +271,10 @@ function takePlayerAway(player) {
 }
 
 function clearAccessible() {
-  while (availableList.length) {
-    availableList[availableList.length - 1].classList.remove("availableSquare");
+  while (game.availableSquares().length) {
+    game
+      .availableSquares()
+      [game.availableSquares().length - 1].classList.remove("availableSquare");
   }
 }
 
