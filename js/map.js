@@ -68,17 +68,15 @@ class Player {
       }
     };
     this.defend = () => {
-      if (activePlayer() == playerOne) {
-        playerOne.defenceMultiplier = 0.5;
+      this.defenceMultiplier = 0.5;
 
+      if (activePlayer() == playerOne) {
         let btn = document.getElementsByClassName("btnBox")[0];
         btn.style.display = "none";
         btn = document.getElementsByClassName("btnBox")[1];
         btn.style.display = "block";
         toggleIsActive();
       } else if (activePlayer() == playerTwo) {
-        playerTwo.defenceMultiplier = 0.5;
-
         let btn = document.getElementsByClassName("btnBox")[1];
         btn.style.display = "none";
         btn = document.getElementsByClassName("btnBox")[0];
