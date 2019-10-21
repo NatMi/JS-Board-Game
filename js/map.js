@@ -1,7 +1,3 @@
-//generic variables
-let allMapSquares = document.getElementsByClassName("mapSquare");
-let mapContainer = document.getElementById("map-container");
-let dimmedSquareClass = "dimmedSquare";
 //Weapons object
 let weapons = {
   allItems: [
@@ -154,15 +150,20 @@ function toggleIsActive() {
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 
 //Randomizing position on map grid --> returns random element from allMapSquares HTML collection
-function randomPositionOnMap() {
-  let randomIndex = Math.floor(Math.random() * allMapSquares.length);
-  let newRandomSquare = allMapSquares[randomIndex];
-  return newRandomSquare;
-}
+let map = {
+  container: document.getElementById("map-container"),
+  allSquares: document.getElementsByClassName("mapSquare"),
+  randomPosition: () => {
+    let randomIndex = Math.floor(Math.random() * map.allSquares.length);
+    let newRandomSquare = map.allSquares[randomIndex];
+    return newRandomSquare;
+  }
+};
+
 function generateDimmedSquares() {
   let totalDimmed = 0;
   while (totalDimmed < 15) {
-    let newDimmedSquare = randomPositionOnMap();
+    let newDimmedSquare = map.randomPosition();
 
     if (newDimmedSquare.className === "mapSquare") {
       newDimmedSquare.classList.add("dimmedSquare");
