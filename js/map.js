@@ -123,6 +123,15 @@ let game = {
     } else if (playerTwo.isActive == false) {
       return playerTwo;
     }
+  },
+  btnBox: () => {
+    let btn = "";
+    if (game.activePlayer() == playerOne) {
+      btn = document.getElementsByClassName("btnBox")[0];
+    } else if (game.activePlayer() == playerTwo) {
+      btn = document.getElementsByClassName("btnBox")[1];
+    }
+    return btn;
   }
 };
 
@@ -290,14 +299,7 @@ function movePlayer(player) {
 /////////////////// FIGHT MODE /////////////////////////////////////
 function fightMode() {
   mapGrid.classList.add("disabled");
-
-  let btn = "";
-  if (game.activePlayer() == playerOne) {
-    btn = document.getElementsByClassName("btnBox")[0];
-  } else if (game.activePlayer() == playerTwo) {
-    btn = document.getElementsByClassName("btnBox")[1];
-  }
-  btn.style.display = "block";
+  game.btnBox().style.display = "block";
 }
 
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
