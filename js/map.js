@@ -171,19 +171,6 @@ function generateDimmedSquares() {
     }
   }
 }
-
-function generateWeapons() {
-  for (let weapon of pickableWeapons) {
-    let isOnMap = 0;
-    while (isOnMap < 2) {
-      let newWeapon = randomPositionOnMap();
-      if (newWeapon.className === "mapSquare") {
-        newWeapon.classList.add(weapon.cssClass);
-        isOnMap++;
-      }
-    }
-  }
-}
 ///////////////////////////////////// Draw map grid //////////////////////////////////
 function drawMapGrid(size) {
   for (let row = 0; row < size; row++) {
