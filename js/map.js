@@ -146,6 +146,19 @@ function toggleIsActive() {
     playerOne.isActive = true;
   }
 }
+function toggleBtnBox() {
+  if (activePlayer() == playerOne) {
+    let btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "block";
+  } else if (activePlayer() == playerTwo) {
+    let btn = document.getElementsByClassName("btnBox")[1];
+    btn.style.display = "none";
+    btn = document.getElementsByClassName("btnBox")[0];
+    btn.style.display = "block";
+  }
+}
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
 
