@@ -167,22 +167,23 @@ let map = {
         totalDimmed++;
       }
     }
+  },
+  drawMapGrid: size => {
+    for (let row = 0; row < size; row++) {
+      let mapGridRow = document.createElement("div");
+      mapGridRow.className = "mapGridRow";
+      mapGrid.appendChild(mapGridRow);
+
+      for (let column = 0; column < size; column++) {
+        let mapSquare = document.createElement("div");
+        mapSquare.className = "mapSquare";
+        mapSquare.id = `${[row + 1]}-${[column + 1]}`;
+        mapGridRow.appendChild(mapSquare);
+      }
+    }
   }
 };
 ///////////////////////////////////// Draw map grid //////////////////////////////////
-function drawMapGrid(size) {
-  for (let row = 0; row < size; row++) {
-    let mapGridRow = document.createElement("div");
-    mapGridRow.className = "mapGridRow";
-    mapGrid.appendChild(mapGridRow);
-
-    for (let column = 0; column < size; column++) {
-      let mapSquare = document.createElement("div");
-      mapSquare.className = "mapSquare";
-      mapSquare.id = `${[row + 1]}-${[column + 1]}`;
-      mapGridRow.appendChild(mapSquare);
-    }
-  }
 
   map.generateDimmedSquares();
   playerOne.generatePosition();
