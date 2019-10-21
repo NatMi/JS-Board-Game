@@ -154,8 +154,28 @@ let map = {
 };
 
 let game = {
-  playerOne: new Player("playerOne", "statboxOne"),
-  playerTwo: new Player("playerTwo", "statboxTwo"),
+  playerOne: "",
+  playerTwo: "",
+
+  newGame: () => {
+    game.playerOne = new Player("playerOne", "statboxOne");
+    game.playerTwo = new Player("playerTwo", "statboxTwo");
+    mapGrid.innerHTML = "";
+    mapGrid.classList.remove("disabled");
+    map.drawMapGrid(12);
+    document.getElementsByClassName("stats-window")[0].style.display = "block";
+    document.getElementsByClassName("stats-window")[1].style.display = "block";
+    map.generateDimmedSquares();
+    game.playerOne.generatePosition(map.firstRow());
+    game.playerTwo.generatePosition(map.lastRow());
+    game.playerOne.isActive = true;
+    checkAvailableSquares(game.activePlayer());
+    weapons.generateOnMap();
+    document.getElementsByClassName("btnBox")[0].style.display = "none";
+    document.getElementsByClassName("btnBox")[1].style.display = "none";
+    game.playerOne.createStatbox();
+    game.playerTwo.createStatbox();
+  },
   fightMode: () => {
     mapGrid.classList.add("disabled");
     game.btnBox().style.display = "block";
