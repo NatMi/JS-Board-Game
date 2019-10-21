@@ -40,6 +40,17 @@ class Player {
     this.healthPoints = 100;
     this.Weapon = weapons.default();
     this.defenceMultiplier = 1;
+    this.generatePosition = () => {
+      let isOnMap = 0;
+      while (isOnMap < 1) {
+        let newPlayer = map.randomPosition();
+        if (newPlayer.className === "mapSquare") {
+          newPlayer.classList.add(this.cssClass);
+          isOnMap++;
+        }
+        this.position = document.getElementsByClassName(this.cssClass)[0];
+      }
+    };
     this.positionArray = () => {
       let currentId = this.position.id.split("-");
       currentId[0] = parseInt(currentId[0]);
@@ -172,18 +183,6 @@ function generateDimmedSquares() {
   }
 }
 
-function generatePlayersPosition(player) {
-  let isOnMap = 0;
-  while (isOnMap < 1) {
-    let newPlayer = randomPositionOnMap();
-    if (newPlayer.className === "mapSquare") {
-      newPlayer.classList.add(player.cssClass);
-      isOnMap++;
-    }
-    player.position = document.getElementsByClassName(player.cssClass)[0];
-  }
-}
-
 function generateWeapons() {
   for (let weapon of pickableWeapons) {
     let isOnMap = 0;
@@ -212,8 +211,8 @@ function drawMapGrid(size) {
   }
 
   generateDimmedSquares();
-  generatePlayersPosition(playerOne);
-  generatePlayersPosition(playerTwo);
+  playerOne.generatePosition();
+  playerTwo.generatePosition();
   playerOne.isActive = true;
   checkAvailableSquares(activePlayer());
   weapons.generateOnMap();
