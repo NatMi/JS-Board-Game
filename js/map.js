@@ -65,7 +65,7 @@ class Player {
       game.inactivePlayer().defenceMultiplier = 1;
 
       toggleBtnBox();
-      toggleIsActive();
+      game.toggleIsActive();
       if (playerOne.healthPoints <= 0 || playerTwo.healthPoints <= 0) {
         alert("game over!");
       }
@@ -73,7 +73,7 @@ class Player {
     this.defend = () => {
       this.defenceMultiplier = 0.5;
       toggleBtnBox();
-      toggleIsActive();
+      game.toggleIsActive();
     };
 
     this.createStatbox = () => {
@@ -132,18 +132,18 @@ let game = {
       btn = document.getElementsByClassName("btnBox")[1];
     }
     return btn;
+  },
+  toggleIsActive: () => {
+    if (game.activePlayer() == playerOne) {
+      playerOne.isActive = false;
+      playerTwo.isActive = true;
+    } else if (game.activePlayer() == playerTwo) {
+      playerTwo.isActive = false;
+      playerOne.isActive = true;
+    }
   }
 };
 
-function toggleIsActive() {
-  if (game.activePlayer() == playerOne) {
-    playerOne.isActive = false;
-    playerTwo.isActive = true;
-  } else if (game.activePlayer() == playerTwo) {
-    playerTwo.isActive = false;
-    playerOne.isActive = true;
-  }
-}
 function toggleBtnBox() {
   let btn = "";
   if (game.activePlayer() == playerOne) {
@@ -292,7 +292,7 @@ function movePlayer(player) {
     }
   }
 
-  toggleIsActive();
+  game.toggleIsActive();
   player.createStatbox();
   checkAvailableSquares(game.activePlayer());
 }
