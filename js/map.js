@@ -149,8 +149,6 @@ function toggleBtnBox() {
 }
 
 /////////////////////////////    Generate map grid    /////////////////////////////////////
-
-//Randomizing position on map grid --> returns random element from allMapSquares HTML collection
 let map = {
   container: document.getElementById("map-container"),
   allSquares: document.getElementsByClassName("mapSquare"),
@@ -158,20 +156,19 @@ let map = {
     let randomIndex = Math.floor(Math.random() * map.allSquares.length);
     let newRandomSquare = map.allSquares[randomIndex];
     return newRandomSquare;
-  }
-};
+  },
+  generateDimmedSquares: () => {
+    let totalDimmed = 0;
+    while (totalDimmed < 15) {
+      let newDimmedSquare = map.randomPosition();
 
-function generateDimmedSquares() {
-  let totalDimmed = 0;
-  while (totalDimmed < 15) {
-    let newDimmedSquare = map.randomPosition();
-
-    if (newDimmedSquare.className === "mapSquare") {
-      newDimmedSquare.classList.add("dimmedSquare");
-      totalDimmed++;
+      if (newDimmedSquare.className === "mapSquare") {
+        newDimmedSquare.classList.add("dimmedSquare");
+        totalDimmed++;
+      }
     }
   }
-}
+};
 ///////////////////////////////////// Draw map grid //////////////////////////////////
 function drawMapGrid(size) {
   for (let row = 0; row < size; row++) {
@@ -187,7 +184,7 @@ function drawMapGrid(size) {
     }
   }
 
-  generateDimmedSquares();
+  map.generateDimmedSquares();
   playerOne.generatePosition();
   playerTwo.generatePosition();
   playerOne.isActive = true;
