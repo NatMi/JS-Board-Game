@@ -72,20 +72,8 @@ class Player {
     };
     this.defend = () => {
       this.defenceMultiplier = 0.5;
-
-      if (activePlayer() == playerOne) {
-        let btn = document.getElementsByClassName("btnBox")[0];
-        btn.style.display = "none";
-        btn = document.getElementsByClassName("btnBox")[1];
-        btn.style.display = "block";
-        toggleIsActive();
-      } else if (activePlayer() == playerTwo) {
-        let btn = document.getElementsByClassName("btnBox")[1];
-        btn.style.display = "none";
-        btn = document.getElementsByClassName("btnBox")[0];
-        btn.style.display = "block";
-        toggleIsActive();
-      }
+      toggleBtnBox();
+      toggleIsActive();
     };
 
     this.createStatbox = () => {
