@@ -1,14 +1,14 @@
-//Weapons object
+//////////////////////   WEAPONS   /////////////////////////////////////
 let weapons = {
   allItems: [
-    { cssClass: "snowball", damage: 5 },
-    { cssClass: "fish", damage: 10 },
-    { cssClass: "smallStone", damage: 15 },
-    { cssClass: "bigStone", damage: 20 }
+    { cssClass: "snowball", damage: 10 },
+    { cssClass: "fish", damage: 15 },
+    { cssClass: "smallStone", damage: 20 },
+    { cssClass: "bigStone", damage: 25 }
   ],
   pickable: () => {
     let filteredItems = weapons.allItems.filter(item => {
-      return item.damage > 5;
+      return item.damage > 10;
     });
     return filteredItems;
   },
@@ -20,7 +20,7 @@ let weapons = {
     for (let weapon of weapons.pickable()) {
       let isOnMap = 0;
       while (isOnMap < 2) {
-        let newWeapon = map.randomPosition();
+        let newWeapon = map.randomPosition(map.allSquares);
         if (newWeapon.className === "mapSquare") {
           newWeapon.classList.add(weapon.cssClass);
           isOnMap++;
