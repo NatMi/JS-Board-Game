@@ -148,6 +148,14 @@ let activePlayer = () => {
   }
 };
 
+let notActivePlayer = () => {
+  if (playerOne.isActive == false) {
+    return playerOne;
+  } else if (playerTwo.isActive == false) {
+    return playerTwo;
+  }
+};
+
 function toggleIsActive() {
   if (activePlayer() == playerOne) {
     playerOne.isActive = false;
