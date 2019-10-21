@@ -109,6 +109,49 @@ class Player {
     };
   }
 }
+/////////////////////////////    MAP   /////////////////////////////////////
+let map = {
+  container: document.getElementById("map-container"),
+  allSquares: document.getElementsByClassName("mapSquare"),
+  firstRow: () => {
+    let firstRow = mapGrid.firstChild.getElementsByClassName("mapSquare");
+    return firstRow;
+  },
+  lastRow: () => {
+    let lastRow = mapGrid.lastChild.getElementsByClassName("mapSquare");
+    return lastRow;
+  },
+  randomPosition: collectionName => {
+    let randomIndex = Math.floor(Math.random() * collectionName.length);
+    let newRandomSquare = collectionName[randomIndex];
+    return newRandomSquare;
+  },
+  generateDimmedSquares: () => {
+    let totalDimmed = 0;
+    while (totalDimmed < 15) {
+      let newDimmedSquare = map.randomPosition(map.allSquares);
+
+      if (newDimmedSquare.className === "mapSquare") {
+        newDimmedSquare.classList.add("dimmedSquare");
+        totalDimmed++;
+      }
+    }
+  },
+  drawMapGrid: size => {
+    for (let row = 0; row < size; row++) {
+      let mapGridRow = document.createElement("div");
+      mapGridRow.className = "mapGridRow";
+      mapGrid.appendChild(mapGridRow);
+
+      for (let column = 0; column < size; column++) {
+        let mapSquare = document.createElement("div");
+        mapSquare.className = "mapSquare";
+        mapSquare.id = `${[row + 1]}-${[column + 1]}`;
+        mapGridRow.appendChild(mapSquare);
+      }
+    }
+  }
+};
 
 let game = {
   playerOne: new Player("playerOne", "statboxOne"),
@@ -166,59 +209,6 @@ let game = {
     }
   }
 };
-
-/////////////////////////////    Generate map grid    /////////////////////////////////////
-let map = {
-  container: document.getElementById("map-container"),
-  allSquares: document.getElementsByClassName("mapSquare"),
-  randomPosition: () => {
-    let randomIndex = Math.floor(Math.random() * map.allSquares.length);
-    let newRandomSquare = map.allSquares[randomIndex];
-    return newRandomSquare;
-  },
-  generateDimmedSquares: () => {
-    let totalDimmed = 0;
-    while (totalDimmed < 15) {
-      let newDimmedSquare = map.randomPosition();
-
-      if (newDimmedSquare.className === "mapSquare") {
-        newDimmedSquare.classList.add("dimmedSquare");
-        totalDimmed++;
-      }
-    }
-  },
-  drawMapGrid: size => {
-    for (let row = 0; row < size; row++) {
-      let mapGridRow = document.createElement("div");
-      mapGridRow.className = "mapGridRow";
-      mapGrid.appendChild(mapGridRow);
-
-      for (let column = 0; column < size; column++) {
-        let mapSquare = document.createElement("div");
-        mapSquare.className = "mapSquare";
-        mapSquare.id = `${[row + 1]}-${[column + 1]}`;
-        mapGridRow.appendChild(mapSquare);
-      }
-    }
-  }
-};
-///////////////////////////////////// Draw map grid //////////////////////////////////
-function newGame() {
-  mapGrid.innerHTML = "";
-  mapGrid.classList.remove("disabled");
-  map.drawMapGrid(12);
-
-  map.generateDimmedSquares();
-  game.playerOne.generatePosition();
-  game.playerTwo.generatePosition();
-  game.playerOne.isActive = true;
-  checkAvailableSquares(game.activePlayer());
-  game.btnBox().style.display = "none";
-  weapons.generateOnMap();
-
-  game.playerOne.createStatbox();
-  game.playerTwo.createStatbox();
-}
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
