@@ -80,8 +80,6 @@ class Player {
     };
 
     this.createStatbox = () => {
-      document.getElementById(`${this.statboxId}`).innerHTML = ""; // 1. removes statbox content if there is any
-      // 2. creates updated statbox content
       document.getElementById(`${this.statboxId}`).innerHTML = "";
       let paragraphHealth = document.createElement("p");
       let health = document.createTextNode(`Health: ${this.healthPoints}`);
