@@ -58,33 +58,14 @@ class Player {
       return currentId;
     };
     this.attack = () => {
-      if (playerOne.isActive == true) {
-        playerTwo.healthPoints =
-          playerTwo.healthPoints -
-          playerOne.Weapon.damage * playerTwo.defenceMultiplier;
-        playerTwo.createStatbox();
-        playerTwo.defenceMultiplier = 1;
+      notActivePlayer().healthPoints =
+        notActivePlayer().healthPoints -
+        this.Weapon.damage * notActivePlayer().defenceMultiplier;
+      notActivePlayer().createStatbox();
+      notActivePlayer().defenceMultiplier = 1;
 
-        let btn = document.getElementsByClassName("btnBox")[0];
-        btn.style.display = "none";
-        btn = document.getElementsByClassName("btnBox")[1];
-        btn.style.display = "block";
-
-        toggleIsActive();
-      } else if (playerTwo.isActive == true) {
-        playerOne.healthPoints =
-          playerOne.healthPoints -
-          playerTwo.Weapon.damage * playerOne.defenceMultiplier;
-        playerOne.createStatbox();
-        playerOne.defenceMultiplier = 1;
-
-        let btn = document.getElementsByClassName("btnBox")[1];
-        btn.style.display = "none";
-        btn = document.getElementsByClassName("btnBox")[0];
-        btn.style.display = "block";
-        toggleIsActive();
-      }
-
+      toggleBtnBox();
+      toggleIsActive();
       if (playerOne.healthPoints <= 0 || playerTwo.healthPoints <= 0) {
         alert("game over!");
       }
