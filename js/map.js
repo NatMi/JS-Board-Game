@@ -314,7 +314,7 @@ function fightMode() {
 
 const body = document.querySelector("body");
 body.addEventListener("click", event => {
-  if (event.target.id == "newGame") {
+  if (event.target.id == "newGameBtn") {
     newGame();
   } else if (event.target.classList.contains("availableSquare")) {
     movePlayer(game.activePlayer());
