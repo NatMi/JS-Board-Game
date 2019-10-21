@@ -40,8 +40,7 @@ class Player {
         playerTwo.healthPoints =
           playerTwo.healthPoints -
           playerOne.Weapon.damage * playerTwo.defenceMultiplier;
-        document.getElementById(`${playerTwo.statboxId}`).innerHTML = "";
-        statboxFunction(playerTwo);
+        playerTwo.createStatbox();
         playerTwo.defenceMultiplier = 1;
 
         let btn = document.getElementsByClassName("btnBox")[0];
@@ -54,8 +53,7 @@ class Player {
         playerOne.healthPoints =
           playerOne.healthPoints -
           playerTwo.Weapon.damage * playerOne.defenceMultiplier;
-        document.getElementById(`${playerOne.statboxId}`).innerHTML = "";
-        statboxFunction(playerOne);
+        playerOne.createStatbox();
         playerOne.defenceMultiplier = 1;
 
         let btn = document.getElementsByClassName("btnBox")[1];
@@ -87,6 +85,34 @@ class Player {
         btn.style.display = "block";
         toggleIsActive();
       }
+    };
+
+    this.createStatbox = () => {
+      document.getElementById(`${this.statboxId}`).innerHTML = ""; // 1. removes statbox content if there is any
+      // 2. creates updated statbox content
+      let paragraphHealth = document.createElement("p");
+      let health = document.createTextNode(`Health: ${this.healthPoints}`);
+      paragraphHealth.appendChild(health);
+      document.getElementById(`${this.statboxId}`).appendChild(paragraphHealth);
+
+      let paragraphWeapon = document.createElement("p");
+      let weapon = document.createTextNode(`Weapon: ${this.Weapon.cssClass}`);
+      paragraphWeapon.appendChild(weapon);
+      document.getElementById(`${this.statboxId}`).appendChild(paragraphWeapon);
+
+      let paragraphDamage = document.createElement("p");
+      let damage = document.createTextNode(`Damage: ${this.Weapon.damage}`);
+
+      paragraphDamage.appendChild(damage);
+      document.getElementById(`${this.statboxId}`).appendChild(paragraphDamage);
+
+      let paragraphPosition = document.createElement("p");
+      let position = document.createTextNode(`Position: ${this.position.id}`);
+
+      paragraphPosition.appendChild(position);
+      document
+        .getElementById(`${this.statboxId}`)
+        .appendChild(paragraphPosition);
     };
   }
 }
@@ -180,34 +206,9 @@ function drawMapGrid(size) {
 }
 
 drawMapGrid(12);
-statboxFunction(playerOne);
-statboxFunction(playerTwo);
+playerOne.createStatbox();
+playerTwo.createStatbox();
 let availableList = document.getElementsByClassName("availableSquare");
-
-///////// statbox
-function statboxFunction(player) {
-  let paragraphHealth = document.createElement("p");
-  let health = document.createTextNode(`Health: ${player.healthPoints}`);
-  paragraphHealth.appendChild(health);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphHealth);
-
-  let paragraphWeapon = document.createElement("p");
-  let weapon = document.createTextNode(`Weapon: ${player.Weapon.cssClass}`);
-  paragraphWeapon.appendChild(weapon);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphWeapon);
-
-  let paragraphDamage = document.createElement("p");
-  let damage = document.createTextNode(`Damage: ${player.Weapon.damage}`);
-
-  paragraphDamage.appendChild(damage);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphDamage);
-
-  let paragraphPosition = document.createElement("p");
-  let position = document.createTextNode(`Position: ${player.position.id}`);
-
-  paragraphPosition.appendChild(position);
-  document.getElementById(`${player.statboxId}`).appendChild(paragraphPosition);
-}
 
 ///////////////////////// MOVEMENT ///////////////////////////
 
@@ -290,9 +291,7 @@ function movePlayer(player) {
   }
 
   toggleIsActive();
-
-  document.getElementById(`${player.statboxId}`).innerHTML = "";
-  statboxFunction(player);
+  player.createStatbox();
   checkAvailableSquares(activePlayer());
 }
 /////////////////// FIGHT MODE /////////////////////////////////////
@@ -307,7 +306,6 @@ function fightMode() {
   }
   btn.style.display = "block";
 }
-
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 
 const body = document.querySelector("body");
