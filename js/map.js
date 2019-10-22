@@ -97,6 +97,7 @@ class Player {
       paragraphDamage.appendChild(damage);
       document.getElementById(`${this.statboxId}`).appendChild(paragraphDamage);
 
+      /* Code below adds info about current player's positions to the statbox*/
       // let paragraphPosition = document.createElement("p");
       // let position = document.createTextNode(`POSITION: ${this.position.id}`);
 
@@ -234,48 +235,50 @@ let game = {
 };
 
 ///////////////////////// MOVEMENT ///////////////////////////
-function checkAvailableSquares(player) {
-  function check(player, index, multiplier) {
-    let x = player.positionArray()[0];
-    let y = player.positionArray()[1];
+let movementManager = {
+  checkAvailableSquares: player => {
+    function check(player, index, multiplier) {
+      let x = player.positionArray()[0];
+      let y = player.positionArray()[1];
 
-    for (let i = 0; i < 3; i++) {
-      if (index === 1) {
-        y = player.positionArray()[index] + (i + 1) * multiplier;
-      } else if (index === 0) {
-        x = player.positionArray()[index] + (i + 1) * multiplier;
-      }
+      for (let i = 0; i < 3; i++) {
+        if (index === 1) {
+          y = player.positionArray()[index] + (i + 1) * multiplier;
+        } else if (index === 0) {
+          x = player.positionArray()[index] + (i + 1) * multiplier;
+        }
 
-      let newCheck = `${x}-${y}`;
-      let newCheckId = document.getElementById(`${newCheck}`);
+        let newCheck = `${x}-${y}`;
+        let newCheckId = document.getElementById(`${newCheck}`);
 
-      if (newCheckId == null) {
-        break;
-      } else if (
-        i == 0 &&
-        (newCheckId.classList.contains("playerOne") ||
-          newCheckId.classList.contains("playerTwo"))
-      ) {
-        game.fightMode();
-        break;
-      } else if (
-        newCheckId.classList.contains("playerOne") ||
-        newCheckId.classList.contains("playerTwo")
-      ) {
-        break;
-      } else if (newCheckId.classList.contains("dimmedSquare")) {
-        break;
-      } else {
-        newCheckId.classList.add("availableSquare");
+        if (newCheckId == null) {
+          break;
+        } else if (
+          i == 0 &&
+          (newCheckId.classList.contains("playerOne") ||
+            newCheckId.classList.contains("playerTwo"))
+        ) {
+          game.fightMode();
+          break;
+        } else if (
+          newCheckId.classList.contains("playerOne") ||
+          newCheckId.classList.contains("playerTwo")
+        ) {
+          break;
+        } else if (newCheckId.classList.contains("dimmedSquare")) {
+          break;
+        } else {
+          newCheckId.classList.add("availableSquare");
+        }
       }
     }
-  }
 
-  check(player, 0, -1); //up
-  check(player, 0, 1); //down
-  check(player, 1, -1); //left
-  check(player, 1, 1); //right
-}
+    check(player, 0, -1); //up
+    check(player, 0, 1); //down
+    check(player, 1, -1); //left
+    check(player, 1, 1); //right
+  }
+};
 
 function takePlayerAway(player) {
   document.getElementById(player.position.id).classList.remove(player.cssClass);
@@ -312,7 +315,7 @@ function movePlayer(player) {
 
   game.toggleIsActive();
   player.createStatbox();
-  checkAvailableSquares(game.activePlayer());
+  movementManager.checkAvailableSquares(game.activePlayer());
 }
 
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
