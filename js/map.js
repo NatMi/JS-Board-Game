@@ -161,6 +161,7 @@ let game = {
     mapGrid.innerHTML = "";
     mapGrid.classList.remove("disabled");
     map.drawMapGrid(12);
+    document.getElementById("mapGrid").style.display = "block";
     document.getElementsByClassName("stats-window")[0].style.display = "block";
     document.getElementsByClassName("stats-window")[1].style.display = "block";
     map.generateDimmedSquares();
