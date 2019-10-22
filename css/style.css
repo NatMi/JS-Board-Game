@@ -68,9 +68,14 @@ body {
 }
 
 #main-container {
+  position: relative;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+#contentWrap {
+  padding-bottom: 2.5rem;
 }
 #game-container {
   display: flex;
@@ -174,4 +179,21 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+footer {
+  font-family: "Arimo", sans-serif;
+  color: white;
+  text-align: center;
+  background-color: #2d5f54;
+  margin-top: 2rem;
+  padding: 2rem;
+}
+footer a {
+  text-decoration: none;
+  color: #86cbcc;
+  transition: all 0.2s;
+}
+footer a:hover {
+  text-decoration: none;
+  color: #689d9e;
 }
