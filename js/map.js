@@ -169,7 +169,7 @@ let game = {
     game.playerOne.generatePosition(map.firstRow());
     game.playerTwo.generatePosition(map.lastRow());
     game.playerOne.isActive = true;
-    checkAvailableSquares(game.activePlayer());
+    movementManager.checkAvailableSquares(game.activePlayer());
     weapons.generateOnMap();
     document.getElementsByClassName("btnBox")[0].style.display = "none";
     document.getElementsByClassName("btnBox")[1].style.display = "none";
@@ -277,12 +277,13 @@ let movementManager = {
     check(player, 0, 1); //down
     check(player, 1, -1); //left
     check(player, 1, 1); //right
+  },
+  takePlayerAway: player => {
+    document
+      .getElementById(player.position.id)
+      .classList.remove(player.cssClass);
   }
 };
-
-function takePlayerAway(player) {
-  document.getElementById(player.position.id).classList.remove(player.cssClass);
-}
 
 function clearAccessible() {
   while (game.availableSquares().length) {
@@ -295,7 +296,7 @@ function clearAccessible() {
 // movePlayer
 function movePlayer(player) {
   clearAccessible();
-  takePlayerAway(player);
+  movementManager.takePlayerAway(player);
 
   let chosenSquare = document.getElementById(event.target.id);
   chosenSquare.classList.add(player.cssClass);
