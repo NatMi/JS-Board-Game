@@ -82,28 +82,28 @@ class Player {
     this.createStatbox = () => {
       document.getElementById(`${this.statboxId}`).innerHTML = "";
       let paragraphHealth = document.createElement("p");
-      let health = document.createTextNode(`Health: ${this.healthPoints}`);
+      let health = document.createTextNode(`HEALTH: ${this.healthPoints}`);
       paragraphHealth.appendChild(health);
       document.getElementById(`${this.statboxId}`).appendChild(paragraphHealth);
 
       let paragraphWeapon = document.createElement("p");
-      let weapon = document.createTextNode(`Weapon: ${this.Weapon.cssClass}`);
+      let weapon = document.createTextNode(`WEAPON: ${this.Weapon.cssClass}`);
       paragraphWeapon.appendChild(weapon);
       document.getElementById(`${this.statboxId}`).appendChild(paragraphWeapon);
 
       let paragraphDamage = document.createElement("p");
-      let damage = document.createTextNode(`Damage: ${this.Weapon.damage}`);
+      let damage = document.createTextNode(`DAMAGE: ${this.Weapon.damage}`);
 
       paragraphDamage.appendChild(damage);
       document.getElementById(`${this.statboxId}`).appendChild(paragraphDamage);
 
-      let paragraphPosition = document.createElement("p");
-      let position = document.createTextNode(`Position: ${this.position.id}`);
+      // let paragraphPosition = document.createElement("p");
+      // let position = document.createTextNode(`POSITION: ${this.position.id}`);
 
-      paragraphPosition.appendChild(position);
-      document
-        .getElementById(`${this.statboxId}`)
-        .appendChild(paragraphPosition);
+      // paragraphPosition.appendChild(position);
+      // document
+      //   .getElementById(`${this.statboxId}`)
+      //   .appendChild(paragraphPosition);
     };
   }
 }
