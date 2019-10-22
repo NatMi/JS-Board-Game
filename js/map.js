@@ -4,7 +4,7 @@ let weapons = {
     { cssClass: "snowball", damage: 10 },
     { cssClass: "fish", damage: 15 },
     { cssClass: "smallStone", damage: 20 },
-    { cssClass: "bigStone", damage: 25 }
+    { cssClass: "bigStone", damage: 30 }
   ],
   pickable: () => {
     let filteredItems = weapons.allItems.filter(item => {
@@ -61,17 +61,16 @@ class Player {
       game.inactivePlayer().healthPoints =
         game.inactivePlayer().healthPoints -
         this.Weapon.damage * game.inactivePlayer().defenceMultiplier;
-      game.inactivePlayer().createStatbox();
       game.inactivePlayer().defenceMultiplier = 1;
-
-      game.toggleBtnBox();
-      game.toggleIsActive();
-      if (
-        game.playerOne.healthPoints <= 0 ||
-        game.playerTwo.healthPoints <= 0
-      ) {
-        alert("game over!");
+      if (game.inactivePlayer().healthPoints > 0) {
+        game.toggleBtnBox();
+        game.toggleIsActive();
+      } else if (game.inactivePlayer().healthPoints <= 0) {
+        game.inactivePlayer().healthPoints = 0;
+        game.btnBox().style.display = "none";
+        alert(`Game over! Winner: ${this.cssClass}`);
       }
+      game.inactivePlayer().createStatbox();
     };
     this.defend = () => {
       this.defenceMultiplier = 0.5;
@@ -282,42 +281,41 @@ let movementManager = {
     document
       .getElementById(player.position.id)
       .classList.remove(player.cssClass);
+  },
+  clearAccessible: () => {
+    while (game.availableSquares().length) {
+      game
+        .availableSquares()
+        [game.availableSquares().length - 1].classList.remove(
+          "availableSquare"
+        );
+    }
+  },
+  movePlayer: player => {
+    movementManager.clearAccessible();
+    movementManager.takePlayerAway(player);
+
+    let chosenSquare = document.getElementById(event.target.id);
+    chosenSquare.classList.add(player.cssClass);
+    player.position = chosenSquare;
+    // check if chosen square contains weapon
+    for (let i = 0; i < weapons.allItems.length; i++) {
+      if (chosenSquare.classList.contains(`${weapons.allItems[i].cssClass}`)) {
+        console.log(`grabbed ${weapons.allItems[i].cssClass}`);
+        chosenSquare.classList.add(`${player.Weapon.cssClass}`);
+        player.Weapon = weapons.allItems.find(item => {
+          return item.cssClass == weapons.allItems[i].cssClass;
+        });
+        chosenSquare.classList.remove(`${weapons.allItems[i].cssClass}`);
+        i = weapons.allItems.length;
+      }
+    }
+
+    game.toggleIsActive();
+    player.createStatbox();
+    movementManager.checkAvailableSquares(game.activePlayer());
   }
 };
-
-function clearAccessible() {
-  while (game.availableSquares().length) {
-    game
-      .availableSquares()
-      [game.availableSquares().length - 1].classList.remove("availableSquare");
-  }
-}
-
-// movePlayer
-function movePlayer(player) {
-  clearAccessible();
-  movementManager.takePlayerAway(player);
-
-  let chosenSquare = document.getElementById(event.target.id);
-  chosenSquare.classList.add(player.cssClass);
-  player.position = chosenSquare;
-  // check if chosen square contains weapon
-  for (let i = 0; i < weapons.allItems.length; i++) {
-    if (chosenSquare.classList.contains(`${weapons.allItems[i].cssClass}`)) {
-      console.log(`grabbed ${weapons.allItems[i].cssClass}`);
-      chosenSquare.classList.add(`${player.Weapon.cssClass}`);
-      player.Weapon = weapons.allItems.find(item => {
-        return item.cssClass == weapons.allItems[i].cssClass;
-      });
-      chosenSquare.classList.remove(`${weapons.allItems[i].cssClass}`);
-      i = weapons.allItems.length;
-    }
-  }
-
-  game.toggleIsActive();
-  player.createStatbox();
-  movementManager.checkAvailableSquares(game.activePlayer());
-}
 
 //////////////////////////   CLICK EVENTS   /////////////////////////////////////////
 const body = document.querySelector("body");
@@ -325,7 +323,7 @@ body.addEventListener("click", event => {
   if (event.target.id == "newGameBtn") {
     game.newGame();
   } else if (event.target.classList.contains("availableSquare")) {
-    movePlayer(game.activePlayer());
+    movementManager.movePlayer(game.activePlayer());
   } else if (event.target.classList.contains("attackBtn")) {
     game.activePlayer().attack();
   } else if (event.target.classList.contains("defendBtn")) {
