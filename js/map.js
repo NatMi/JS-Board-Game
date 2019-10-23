@@ -7,14 +7,12 @@ let weapons = {
     { cssClass: "bigStone", damage: 30 }
   ],
   pickable: () => {
-    let filteredItems = weapons.allItems.filter(item => {
+    return weapons.allItems.filter(item => {
       return item.damage > 10;
     });
-    return filteredItems;
   },
   default: () => {
-    let chosenDefault = weapons.allItems[0];
-    return chosenDefault;
+    return weapons.allItems[0];
   },
   generateOnMap: () => {
     for (let weapon of weapons.pickable()) {
@@ -63,14 +61,15 @@ class Player {
         this.Weapon.damage * game.inactivePlayer().defenceMultiplier;
       game.inactivePlayer().defenceMultiplier = 1;
       if (game.inactivePlayer().healthPoints > 0) {
+        game.inactivePlayer().createStatbox();
         game.toggleBtnBox();
         game.toggleIsActive();
       } else if (game.inactivePlayer().healthPoints <= 0) {
         game.inactivePlayer().healthPoints = 0;
+        game.inactivePlayer().createStatbox();
         game.btnBox().style.display = "none";
         alert(`Game over! Winner: ${this.cssClass}`);
       }
-      game.inactivePlayer().createStatbox();
     };
     this.defend = () => {
       this.defenceMultiplier = 0.5;
@@ -112,17 +111,14 @@ let map = {
   container: document.getElementById("map-container"),
   allSquares: document.getElementsByClassName("mapSquare"),
   firstRow: () => {
-    let firstRow = mapGrid.firstChild.getElementsByClassName("mapSquare");
-    return firstRow;
+    return mapGrid.firstChild.getElementsByClassName("mapSquare");
   },
   lastRow: () => {
-    let lastRow = mapGrid.lastChild.getElementsByClassName("mapSquare");
-    return lastRow;
+    return mapGrid.lastChild.getElementsByClassName("mapSquare");
   },
   randomPosition: collectionName => {
     let randomIndex = Math.floor(Math.random() * collectionName.length);
-    let newRandomSquare = collectionName[randomIndex];
-    return newRandomSquare;
+    return collectionName[randomIndex]; // new random square
   },
   generateDimmedSquares: () => {
     let totalDimmed = 0;
