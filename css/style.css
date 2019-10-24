@@ -238,7 +238,7 @@ th {
   color: #42739d;
   text-align: center;
   justify-content: space-evenly;
-  background-color: #eefbffc7;
+  background-color: rgba(234, 251, 252, 0.774);
   margin-top: 2rem;
   padding: 2rem;
   border-bottom: 6px outset rgba(28, 110, 164, 0.48);
