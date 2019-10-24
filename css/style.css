@@ -179,15 +179,6 @@ body {
   text-align: center;
 }
 
-#damageInfo {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-#damageInfo p {
-  padding: 2px;
-}
-
 .snowball {
   background-image: url(../assets/snowball.png);
   background-size: 60%;
@@ -214,11 +205,13 @@ body {
   background-position: center center;
 }
 footer {
+  display: flex;
+  justify-content: space-between;
   font-family: "Arimo", sans-serif;
-  color: white;
+  color: #bbd4d4;
   text-align: center;
-  background-color: #2d5f54;
-  margin-top: 2rem;
+  justify-content: space-evenly;
+  background-color: #2d555f;
   padding: 2rem;
 }
 footer a {
@@ -230,6 +223,24 @@ footer a:hover {
   text-decoration: none;
   color: #689d9e;
 }
+
+tr {
+  text-align: left;
+}
 th {
+  text-align: center;
   border-bottom: solid 1px #69a598;
+}
+#gameInfo {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Arimo", sans-serif;
+  color: #42739d;
+  text-align: center;
+  justify-content: space-evenly;
+  background-color: #eefbffc7;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-bottom: 6px outset rgba(28, 110, 164, 0.48);
+  box-shadow: rgba(42, 85, 133, 0.466) 5px 7px 15px;
 }
