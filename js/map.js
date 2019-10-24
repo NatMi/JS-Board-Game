@@ -86,7 +86,11 @@ class Player {
 
       let paragraphWeapon = document.createElement("p");
       let weapon = document.createTextNode(`WEAPON: ${this.Weapon.cssClass}`);
+      let weaponIcon = document.createElement("div");
+      weaponIcon.classList.add(`${this.Weapon.cssClass}`);
+      weaponIcon.classList.add("weaponIcon");
       paragraphWeapon.appendChild(weapon);
+      paragraphWeapon.appendChild(weaponIcon);
       document.getElementById(`${this.statboxId}`).appendChild(paragraphWeapon);
 
       let paragraphDamage = document.createElement("p");
