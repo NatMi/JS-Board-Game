@@ -1,10 +1,10 @@
 //////////////////////   WEAPONS   /////////////////////////////////////
 let weapons = {
   allItems: [
-    { cssClass: "snowball", damage: 10 },
-    { cssClass: "fish", damage: 15 },
-    { cssClass: "smallStone", damage: 20 },
-    { cssClass: "bigStone", damage: 30 }
+    { name: "Snowball", cssClass: "snowball", damage: 10 },
+    { name: "Fish", cssClass: "fish", damage: 15 },
+    { name: "Small stone", cssClass: "smallStone", damage: 20 },
+    { name: "Big stone", cssClass: "bigStone", damage: 30 }
   ],
   pickable: () => {
     return weapons.allItems.filter(item => {
@@ -85,7 +85,7 @@ class Player {
       document.getElementById(`${this.statboxId}`).appendChild(paragraphHealth);
 
       let paragraphWeapon = document.createElement("p");
-      let weapon = document.createTextNode(`WEAPON: ${this.Weapon.cssClass}`);
+      let weapon = document.createTextNode(`WEAPON: ${this.Weapon.name}`);
       let weaponIcon = document.createElement("div");
       weaponIcon.classList.add(`${this.Weapon.cssClass}`);
       weaponIcon.classList.add("weaponIcon");
