@@ -17,3 +17,5 @@ Tasks: Create an online game written JavaScript in which 2 players play each tur
 6. Fightmode: when players are close to each other, fight begins. Each player has one move in turn and can either attack the opponent, or defend themselves.
    Attack will lessen opponent's health according to active player's weapon damage. Defence will halve opponents attack damage in next turn.
 7. When player's lifepoints reach 0, game is over and the message appears.
+
+Game is hosted via GitHub pages: https://natmi.github.io/JS-Board-Game/
