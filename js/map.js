@@ -179,14 +179,14 @@ let game = {
   activePlayer: () => {
     if (game.playerOne.isActive == true) {
       return game.playerOne;
-    } else if (game.playerTwo.isActive == true) {
+    } else {
       return game.playerTwo;
     }
   },
   inactivePlayer: () => {
     if (game.playerOne.isActive == false) {
       return game.playerOne;
-    } else if (game.playerTwo.isActive == false) {
+    } else {
       return game.playerTwo;
     }
   },
