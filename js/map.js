@@ -181,14 +181,14 @@ let game = {
   },
 
   activePlayer: () => {
-    if (game.playerOne.isActive == true) {
+    if (game.playerOne.isActive) {
       return game.playerOne;
     } else {
       return game.playerTwo;
     }
   },
   inactivePlayer: () => {
-    if (game.playerOne.isActive == false) {
+    if (!game.playerOne.isActive) {
       return game.playerOne;
     } else {
       return game.playerTwo;
